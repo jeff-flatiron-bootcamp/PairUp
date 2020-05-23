@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.board {
+  display: grid; 
+  grid-template-columns: 1in 1in 1in 1in;
+  grid-template-rows: 1in 1in 1in 1in;
+  margin: 2in;
+  
+  
+}
+.cell-container {
+  border:solid;
+  background-color: rgb(129, 231, 242);
+}
+
+.cell {
+  
+  padding: 30px;
+
+}
