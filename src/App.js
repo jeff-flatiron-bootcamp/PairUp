@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import {tiles} from './data.js'
-import Cell from './Cell.js'
+import Cell from './component/Cell.js'
 
 
 
@@ -17,6 +17,10 @@ export default class App extends Component {
         matched: [],
         score: 0
       }
+  }
+
+  componentDidMount(){
+    this.prepGameBoard() 
   }
 
   setChoice = (cell) =>{
@@ -62,12 +66,42 @@ export default class App extends Component {
     else { console.log(`This card has already been matched!`)}
   }
 
-  isAWin = () => {
-    return ((this.state.score * 2) === this.state.board.length)? (alert("You win!")) : console.log(`${this.state.board.length} != ${this.state.score}`)
+  isAWin = (multiplier=2) => {
+    if ((this.state.score * multiplier) === this.state.board.length){
+
+      //send an update to backend with score
+      this.setState({board:[], score:0})
+      this.setState({board:tiles})
+      this.prepGameBoard()
+
+      return alert("You win!")
+    }
+    else {
+      return console.log(`Current score: ${this.state.score * multiplier} / ${this.state.board.length} `)
+    }
+    
   }
 
   generateRows = ()=> {
     return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice}/>)
+  }
+
+
+  chooseTiles = () => {
+    return(
+      <div>
+        Choose a Tile Set
+        <select onChange={this.handleTiles}>
+          <option value="Default">Default</option>
+          <option value="shapes">Shapes</option>
+          <option value="colors">Colors</option>
+        </select>
+      </div>
+    )
+  }
+
+  handleTiles = (choice) => {
+    console.log(`Chose ${choice.target.value}`)
   }
 
 
@@ -90,9 +124,6 @@ export default class App extends Component {
     let pairs = 8   //choice.target.value // switching between sizes causes stack overflow!! 
     let local = []
     let temp = []
-
-    // this.setState({board:tiles})
-    // setTimeout(this.state.board.forEach(item => console.log(`${item.word}: ${item.flipped}`)), 1500)
     
     for (let i=0; i < pairs; i++){
       let choose = this.state.board[Math.floor(Math.random() * this.state.board.length)]
@@ -113,8 +144,6 @@ export default class App extends Component {
         local[i] = local[j]
         local[j] = temp
     }
-
-    // local.forEach(item => console.log(`${item.id}: ${item.word}`))
     this.setState({board:local})
   }
 
@@ -122,7 +151,7 @@ export default class App extends Component {
       return (
         <div>
           {this.chooseDifficulty()}
-          
+          {this.chooseTiles()}          
           <div className="board">
             {this.generateRows()}
           </div>
