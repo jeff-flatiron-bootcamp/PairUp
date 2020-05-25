@@ -1,8 +1,18 @@
-import React, {Component} from 'react';
-// import logo from './logo.svg';
+import React, {Component, Fragment } from 'react';
 import './App.css';
 import {tiles} from './data.js'
 import Cell from './component/Cell.js'
+// import Cell from './Cell.js'
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import TopBar from './component/TopBar'
+import Login from './component/Login'
+import Footer from './component/Footer'
+import { Container, Jumbotron } from 'react-bootstrap'
+import Leaderboard from './component/Leaderboard';
+import UserHome from './component/UserHome'
+import About from './component/About'
+import {BrowserRouter as Router, Route} from "react-router-dom"
 
 
 
@@ -149,13 +159,29 @@ export default class App extends Component {
 
   render() {
       return (
-        <div>
+        <Fragment>
+        <TopBar />
+        <Router>
+        <Route path= '/about' component={About}/>
+        <Route path= '/login' component={Login}/>
+        <Route path= '/home' component={UserHome}/>
+        <Route path= '/leaderboard' component={Leaderboard}/>
+        <Route path= '/play' component={Leaderboard}/>
+        </Router>
+        <Container>
+          <Jumbotron>
+          <div>
           {this.chooseDifficulty()}
           {this.chooseTiles()}          
           <div className="board">
             {this.generateRows()}
           </div>
         </div>
+          </Jumbotron>
+        </Container>
+        <Footer />
+      </Fragment>
+ 
       )
   }
 }
