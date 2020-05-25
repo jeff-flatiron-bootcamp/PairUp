@@ -1,5 +1,5 @@
 import React, {Component, Fragment } from 'react';
-import {BrowserRouter as Router, Route} from "react-router-dom"
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { Container, Jumbotron } from 'react-bootstrap'
 
@@ -11,7 +11,6 @@ import Leaderboard from './component/Leaderboard';
 import UserHome from './component/UserHome'
 import About from './component/About'
 import Game from './component/Game'
-import {BrowserRouter as Router, Route, Redirect} from "react-router-dom"
 
 
 
