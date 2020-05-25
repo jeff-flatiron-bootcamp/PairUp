@@ -1,3 +1,5 @@
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,11 +7,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #ECEBE4!important;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .board {
@@ -17,16 +19,254 @@ code {
   grid-template-columns: 1in 1in 1in 1in;
   grid-template-rows: 1in 1in 1in 1in;
   margin: 2in;
-  
-  
 }
+
 .cell-container {
   border:solid;
-  background-color: rgb(129, 231, 242);
+  background-color: #e0574f;
 }
 
 .cell {
-  
   padding: 30px;
+}
 
+header {
+  height: 10%;
+  background-color: #c0392b;
+}
+
+#logo {
+    width: 30%;
+    height: auto;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #ECEBE4!important;
+}
+
+.navbar{
+  background-color: #c0392b;
+  color: #ECEBE4!important;
+  font-size: 1.8em !important;
+}
+
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  width: 1in;
+  height: 1in;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: #e0574f;
+  border-color: #60a3bc;
+  border: solid;
+  color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: #60a3bc;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+/* ----------------------- */
+/* LOGIN CSS */
+/* ----------------------- */
+
+.login-container{
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+.login-form-1{
+  padding: 9%;
+  background:#60a3bc;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-1 h3{
+  text-align: center;
+  margin-bottom:12%;
+  color:#fff;
+}
+.login-form-2{
+  padding: 9%;
+  background: #c0392b;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-2 h3{
+  text-align: center;
+  margin-bottom:12%;
+  color: #fff;
+}
+.btnSubmit{
+  font-weight: 600;
+  width: 50%;
+  color: #60a3bc;
+  background-color: #fff;
+  border: none;
+  border-radius: 1.5rem;
+  padding:2%;
+}
+/* ----------------------- */
+/* LEADERBOARD CSS */
+/* ----------------------- */
+.leaderboardContainer {
+  display: flex;
+  flex-direction:row;
+}
+
+.leaderboard {
+  margin:15px;
+  width: 33%;
+  height: 308px;
+  background: linear-gradient(to bottom, #60a3bc, #60a3bc);
+  border-radius: 10px;
+  box-shadow: 0 7px 30px rgba(62, 9, 11, 0.3);
+}
+.leaderboard h1 {
+  font-size: 18px;
+  color: #e1e1e1;
+  padding: 12px 13px 18px;
+}
+.leaderboard h1 svg {
+  width: 25px;
+  height: 26px;
+  position: relative;
+  top: 3px;
+  margin-right: 6px;
+  vertical-align: baseline;
+}
+
+.leaderboard ol li {
+  position: relative;
+  z-index: 1;
+  font-size: 15px;
+  counter-increment: leaderboard;
+  padding: 18px 10px 18px 50px;
+}
+
+.leaderboard ol li mark {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 18px 10px 18px 50px;
+  margin: 0;
+  background: none;
+  color: #fff;
+}
+
+.leaderboard ol li small {
+  display: block;
+  text-align: right;
+}
+
+.leaderboard ol li:nth-child(1) {
+  background: #fa6855;
+}
+
+.leaderboard ol li:nth-child(2) {
+  background: #e0574f;
+}
+
+.leaderboard ol li:nth-child(3) {
+  background: #d7514d;
+}
+
+.leaderboard ol li:nth-child(4) {
+  background: #cd4b4b;
+}
+.leaderboard ol li:nth-child(5) {
+  background: #c0392b;
+  border-radius: 0 0 10px 10px;
+}
+
+/* ----------------------- */
+/* USERHOMEPAGE CSS */
+/* ----------------------- */
+#our-stats{
+	padding: 30px 0;
+}
+
+#our-stats .h1{
+    color: #c0392b!important;
+}
+
+#our-stats .counter {
+    background-color: #60a3bc;
+    border-color: #c0392b;
+    border: solid;
+    padding: 35px 0;
+    border-radius: 5px;
+    color: white;
+}
+
+#our-stats .counter p{
+    font-style:italic;
+    margin-bottom:0;
+}
+
+/* ----------------------- */
+/* ABOUT PAGE CSS */
+/* ----------------------- */
+
+.how-section1{
+  margin-top:-15%;
+  padding: 10%;
+}
+.how-section1 h4{
+  color: #cd4b4b;
+  font-weight: bold;
+  font-size: 30px;
+}
+.how-section1 .subheading{
+  color: #60a3bc;
+  font-size: 20px;
+}
+.how-section1 .row{
+  margin-top: 10%;
+}
+.how-img {
+  text-align: center;
+}
+.how-img img{
+  width: 40%;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 45px;
+  line-height: 60px;
+  background-color: #c0392b;
+  display: block;
 }
