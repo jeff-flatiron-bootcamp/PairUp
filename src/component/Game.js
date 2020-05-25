@@ -7,6 +7,8 @@ import '../App.css';
 import {tiles} from '../data.js'
 import Cell from './Cell.js'
 
+const URL = "localhost:3000"
+
 
 class Game extends Component {
 
@@ -25,7 +27,56 @@ class Game extends Component {
 
   componentDidMount(){
     this.prepGameBoard() 
+    this.postNewGame()
   }
+
+  postNewGame = () => {
+    let token = localStorage.getItem('token');    
+    fetch('http://localhost:3000/api/v1/newgame', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        user: {
+          game_type: "1"         //look at how to handle game difficulty level
+        }      
+      })     
+    })
+    .then(res => res.json())
+    .then(gameData => this.storeGame(gameData))
+  }
+
+  patchGame = () => {
+    let token = localStorage.getItem('token');  
+    let game = JSON.parse(localStorage.getItem('game'))
+    game.score = this.state.score // multiplier?
+    game.timer =  10 // difficulty time - leftover timer time
+
+
+    fetch('http://localhost:3000/api/v1/updategame', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        user: {
+          game: game         //look at how to handle game difficulty level
+        }      
+      })     
+    })
+
+  }
+
+  storeGame = (gameData) => {
+    localStorage.setItem("game", JSON.stringify(gameData.created_game))
+    // this.patchGame()  // move this to the win method
+  }
+
 
   setChoice = (cell) =>{
 
@@ -78,6 +129,7 @@ class Game extends Component {
       this.setState({board:tiles})
       this.prepGameBoard()
 
+      this.patchGame()
       return alert("You win!")
     }
     else {
@@ -87,7 +139,6 @@ class Game extends Component {
   }
 
   generateRows = ()=> {
-
     return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice}/>)
   }
 
@@ -120,7 +171,6 @@ class Game extends Component {
           <option value="30000">Hard</option>
           <option value="20000">Extreme</option>
         </select>
-        <input type="button" onClick={this.startTimer} value="Go!" />
       </div>
     )
   }
@@ -131,11 +181,11 @@ class Game extends Component {
   }
 
   startTimer = () => {
-    return (<h2><Countdown date={Date.now() + parseInt(this.state.difficulty)}> {this.completed} </Countdown></h2>)
+    return <h2><Countdown date={Date.now() + parseInt(this.state.difficulty)}/></h2>
   } 
 
   completed = () => {
-      return (<span>Time's up!</span>)
+    //   return (<span>Time's up!</span>)
   }
 
   prepGameBoard = () => {
@@ -171,6 +221,7 @@ class Game extends Component {
             <Container>
                 <Jumbotron>
                 {this.chooseDifficulty()}
+                {this.startTimer()}
                 <div className="board">
                     {this.generateRows()}
                 </div>
