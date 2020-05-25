@@ -11,6 +11,7 @@ import Leaderboard from './component/Leaderboard';
 import UserHome from './component/UserHome'
 import About from './component/About'
 import Game from './component/Game'
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom"
 
 
 
@@ -20,11 +21,16 @@ export default class App extends Component {
       super(props)
   }
 
+  onLogout=()=> {
+    window.location.reload()
+  }
+
   render() {
       return (
         <Fragment>
-        <TopBar />
+        <TopBar onLogout={this.onLogout}/>
         <Router>
+        <Route exact path="/"> {!localStorage.getItem("token") ? <Redirect to="/login" /> : <Redirect to="/home"/>}</Route>
         <Route path= '/about' component={About}/>
         <Route path= '/login' component={Login}/>
         <Route path= '/home' component={UserHome}/>

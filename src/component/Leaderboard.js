@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import AuthHOC from '../HOC/AuthHOC'
 
 export class Leaderboard extends Component {
     render() {
@@ -93,4 +94,4 @@ export class Leaderboard extends Component {
     }
 }
 
-export default Leaderboard
+export default AuthHOC(Leaderboard)

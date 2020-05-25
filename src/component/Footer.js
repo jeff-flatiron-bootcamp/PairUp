@@ -5,7 +5,7 @@ export class Footer extends React.Component {
     return (
       <footer className="footer">
         <div className="row">
-        <div class="col-md-12 text-center">
+        <div className="col-md-12 text-center">
           Pair UP! 2020 Seattle, WA 
           {/* <span>  JS     </span><a href="https://www.linkedin.com/in/amanmichael/" target="_blank"><i class="fa fa-linkedin"></i></a>
           <a href="https://github.com/theouty"target="_blank"><i class="fa fa-github-square"></i></a>

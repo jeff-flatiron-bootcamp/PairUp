@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import logo from "./LOGO.png"
+import {Redirect} from 'react-router-dom'
 
 export class TopBar extends Component {
+  handleLogout=()=>{
+    this.props.onLogout()
+    localStorage.clear()
+
+  }
     render() {
         return (
             <Navbar expand="lg">
@@ -19,7 +25,7 @@ export class TopBar extends Component {
                 <Nav.Link href="/home">Home</Nav.Link>
                 <Nav.Link href="/leaderboard">Leaderboards</Nav.Link>
                 <Nav.Link href="/about">About</Nav.Link>
-                <Nav.Link href="/logout">Logout</Nav.Link>
+                <Nav.Link onClick={()=>this.handleLogout()}>Logout</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
