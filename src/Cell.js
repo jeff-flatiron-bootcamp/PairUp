@@ -10,19 +10,17 @@ class Cell extends Component {
         }
     }
 
-    handleClick = () => {
-        this.props.incrementFlip(this.props.cellContent.id)
+    handleClick = ({cellContent, onSetChoice}) => {
+        onSetChoice(cellContent)
     }
 
     
     render() {
-        const {flipped} = this.props.cellContent
-        const {word} = this.props.cellContent
+        const {flipped, word, image} = this.props.cellContent
+
         return (
-            <div className="cell-container">
-                <div className="cell" onClick={this.handleClick}>
-                    {flipped ? word : null}
-                </div>
+            <div className="cell-container" onClick={() => this.handleClick(this.props)}>
+                {flipped ? <img alt={word} src={image}></img> : null}
             </div>
         )
     }
