@@ -74,8 +74,7 @@ class Game extends Component {
 
   }
 
-  storeUserGame = (userGameData) => {
-    debugger
+  storeUserGame = (userGameData) => {    
     localStorage.setItem("user_game", JSON.stringify(userGameData.created_UserGame))
     //this.patchUserGame()  // move this to the win method
   }
