@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import puzzle from './742px-Icone_Puzzle.svg.png'
+import AuthHOC from "../HOC/AuthHOC";
 
 export class About extends Component {
     render() {
@@ -30,4 +31,4 @@ export class About extends Component {
     }
 }
 
-export default About
+export default AuthHOC(About)

@@ -28,7 +28,9 @@ export class Login extends Component {
             })
         })
         .then(r => r.json())
-        .then(json => this.storeToken(json))
+        .then(json => {this.storeToken(json)
+            this.props.history.push('/home')
+        })
     }
 
     handleCreateUser = (event) => {
@@ -50,12 +52,14 @@ export class Login extends Component {
             })
         })
         .then(r => r.json())
-        .then(json => this.storeToken(json))                
+        .then(json => {this.storeToken(json)
+            this.props.history.push('/home')
+        })                
     }
 
     storeToken(json)
     {            
-      localStorage.setItem('user', json.user)
+      localStorage.setItem('user', JSON.stringify(json.user))
       localStorage.setItem('token', json.jwt)
     }
 
@@ -68,35 +72,35 @@ export class Login extends Component {
     render() {
         return (
             <div className="container login-container">
-                <div class="row">
-                    <div class="col-md-6 login-form-1">
+                <div className="row">
+                    <div className="col-md-6 login-form-1">
                         <h3>Login!</h3>
                         <form onSubmit={this.handleLogin}>
-                            <div class="form-group">
-                                <input name="nameLogin" type="text" class="form-control" placeholder="User Name" value={this.state.nameLogin} onChange={this.handleChange} />
+                            <div className="form-group">
+                                <input name="nameLogin" type="text" className="form-control" placeholder="User Name" value={this.state.nameLogin} onChange={this.handleChange} />
                             </div>
-                            <div class="form-group">
-                                <input name="passwordLogin" type="password" class="form-control" placeholder="Your Password *" value={this.state.passwordLogin} onChange={this.handleChange} />
+                            <div className="form-group">
+                                <input name="passwordLogin" type="password" className="form-control" placeholder="Your Password *" value={this.state.passwordLogin} onChange={this.handleChange} />
                             </div>
-                            <div class="form-group">
-                                <input type="submit" class="btnSubmit" value="Login" />
+                            <div className="form-group">
+                                <input type="submit" className="btnSubmit" value="Login" />
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-6 login-form-2">
+                    <div className="col-md-6 login-form-2">
                         <h3>Signup!</h3>
                         <form onSubmit={this.handleCreateUser}>
-                            <div class="form-group">
-                                <input name="nameSignup" type="text" class="form-control" placeholder="User Name" value={this.state.nameSignup} onChange={this.handleChange} />
+                            <div className="form-group">
+                                <input name="nameSignup" type="text" className="form-control" placeholder="User Name" value={this.state.nameSignup} onChange={this.handleChange} />
                             </div>
-                            <div class="form-group">
-                                <input name="countrySignup" type="text" class="form-control" placeholder="Your Country" value={this.state.countrySignup} onChange={this.handleChange} />
+                            <div className="form-group">
+                                <input name="countrySignup" type="text" className="form-control" placeholder="Your Country" value={this.state.countrySignup} onChange={this.handleChange} />
                             </div>
-                            <div class="form-group">
-                                <input name="passwordSignup" type="password" class="form-control" placeholder="Your Password *" value={this.state.passwordSignup} onChange={this.handleChange} />
+                            <div className="form-group">
+                                <input name="passwordSignup" type="password" className="form-control" placeholder="Your Password *" value={this.state.passwordSignup} onChange={this.handleChange} />
                             </div>
-                            <div class="form-group">
-                                <input type="submit" class="btnSubmit" value="Signup" />
+                            <div className="form-group">
+                                <input type="submit" className="btnSubmit" value="Signup" />
                             </div>
                         </form>
                     </div>
