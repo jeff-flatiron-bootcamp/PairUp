@@ -47,6 +47,7 @@ class Game extends Component {
     })
     .then(res => res.json())
     .then(gameData => this.storeGame(gameData))
+    .then(console.log(`Created new game!`))
   }
 
   patchGame = () => {
@@ -69,12 +70,11 @@ class Game extends Component {
         }      
       })     
     })
-
+    .then(console.log(`Updated game with ${game.score} points!`))
   }
 
   storeGame = (gameData) => {
     localStorage.setItem("game", JSON.stringify(gameData.created_game))
-    // this.patchGame()  // move this to the win method
   }
 
 
@@ -125,11 +125,11 @@ class Game extends Component {
     if ((this.state.score * multiplier) === this.state.board.length){
 
       //send an update to backend with score
+      this.patchGame()
       this.setState({board:[], score:0})
       this.setState({board:tiles})
       this.prepGameBoard()
 
-      this.patchGame()
       return alert("You win!")
     }
     else {
@@ -181,12 +181,13 @@ class Game extends Component {
   }
 
   startTimer = () => {
-    return <h2><Countdown date={Date.now() + parseInt(this.state.difficulty)}/></h2>
+  return <h2><Countdown date={Date.now() + parseInt(this.state.difficulty)} onStart={null} /> </h2>
   } 
 
   completed = () => {
     //   return (<span>Time's up!</span>)
   }
+
 
   prepGameBoard = () => {
     
@@ -219,13 +220,14 @@ class Game extends Component {
       return (
           <div>
             <Container>
-                <Jumbotron>
+                {/* <Jumbotron> */}
                 {this.chooseDifficulty()}
                 {this.startTimer()}
+                <h2>Score: {this.state.score}</h2>
                 <div className="board">
                     {this.generateRows()}
                 </div>
-                </Jumbotron>
+                {/* </Jumbotron> */}
             </Container> 
         </div>
       )
