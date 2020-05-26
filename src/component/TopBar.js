@@ -7,12 +7,11 @@ export class TopBar extends Component {
   handleLogout=()=>{
     this.props.onLogout()
     localStorage.clear()
-
   }
     render() {
         return (
             <Navbar expand="lg">
-            <Navbar.Brand href="/home" className="navbar-left" id="logo"><img id="logo" src={logo} alt='PairUp!'/></Navbar.Brand>
+            <Navbar.Brand href="/home" className="navbar-left"><img id="logo" src={logo} alt='PairUp!'/></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Nav className="mr-auto">
               {/* <NavDropdown title="Play!" id="basic-nav-dropdown">
