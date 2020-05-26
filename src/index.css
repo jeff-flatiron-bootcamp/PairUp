@@ -330,3 +330,8 @@ ul.share-buttons .sr-only{
   width: 1px;
   overflow: hidden;
 }
+
+.img-fluid {
+  max-width: 10% !important;
+  height: auto;
+}
