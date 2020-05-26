@@ -1,50 +1,46 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ReactCountdownClock from 'react-countdown-clock'
 import { Container, Jumbotron, Modal, Button } from 'react-bootstrap'
-import Countdown from 'react-countdown'
-import '../App.css';
-import {tiles} from '../data.js'
-import Cell from './Cell.js'
 import trophy from './512px-Circle-icons-trophy_(dark).svg.png'
 import AuthHOC from '../HOC/AuthHOC'
 import fb from '../images/Facebook.png'
 import email from '../images/Email.png'
+import '../App.css';
+import {tiles} from '../data.js'
+import Cell from './Cell.js'
+
 
 const URL = "localhost:3000"
+const  INITIAL_STATE= {
+    set: "colors",
+
+    board: tiles,
+    choice: null,
+    matched: [],
+    score: 0,
+    time: 0,
+    difficulty: 60,
+    timesUp: true,
+    visible : false
+  } 
 
 class Game extends Component {
 
   constructor(props) {
-      super(props)
-    
-      this.state = {
-        board: tiles,
-        choice: null,
-        matched: [],
-        score: 0,
-        difficulty: 0,
-        time: 0,
-        visible : false
-      }
+    super(props)
+    this.state = INITIAL_STATE
   }
-  openModal() {
-    this.setState({
-        visible : true
-    });
-}
 
-closeModal() {
-    this.setState({
-        visible : false
-    });
-}
   componentDidMount(){
     this.prepGameBoard() 
-    this.postNewGame()
   }
 
-  postNewGame = () => {
-    let token = localStorage.getItem('token');    
+
+  //backend functions
+  postNewUserGame = () => {
+    let token = localStorage.getItem('token');   
+
     fetch('http://localhost:3000/api/v1/newgame', {
       method: 'POST',
       headers: {
@@ -54,19 +50,19 @@ closeModal() {
       },
       body: JSON.stringify({
         user: {
-          game_type: "1"         //look at how to handle game difficulty level
+          game_type: "1"                                         //look at how to handle game difficulty level
         }      
       })     
     })
     .then(res => res.json())
-    .then(gameData => this.storeGame(gameData))
+    .then(userGameData => this.storeUserGame(userGameData))
   }
 
-  patchGame = () => {
+  patchUserGame = () => {
     let token = localStorage.getItem('token');  
-    let game = JSON.parse(localStorage.getItem('game'))
-    game.score = this.state.score // multiplier?
-    game.timer =  10 // difficulty time - leftover timer time
+    let user_game = JSON.parse(localStorage.getItem('user_game'))
+    user_game.score = this.state.score                          // multiplier?
+    user_game.timer =  10                                       // difficulty time - leftover timer time
 
 
     fetch('http://localhost:3000/api/v1/updategame', {
@@ -78,21 +74,104 @@ closeModal() {
       },
       body: JSON.stringify({
         user: {
-          game: game         //look at how to handle game difficulty level
+          user_game: user_game                                  //look at how to handle game difficulty level
         }      
       })     
     })
+    .then(res => res.json())
+    .then(json => console.log(`Updated db with: ${json}`))
 
   }
 
-  storeGame = (gameData) => {
-    localStorage.setItem("game", JSON.stringify(gameData.created_game))
-    // this.patchGame()  // move this to the win method
+  storeUserGame = (userGameData) => {    
+    localStorage.setItem("user_game", JSON.stringify(userGameData.created_UserGame))
+  }
+
+
+  //frontend functions
+  startGame = () => {
+    return (
+      <div>
+        <div>
+         <form  >
+          Choose the Game Difficulty
+          <select name="time" onChange={this.changeTimer}>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+          </select>
+          <input type="button" value="Start Game!" onClick={this.newGame}/>
+          </form>
+          {(this.state.timesUp)? null : <ReactCountdownClock seconds={this.state.difficulty} color="#cd4b4b" alpha={0.9} size={75} onComplete={this.gameEndsWithTimeOut} />}
+        </div>
+        <h2>Score: {this.state.score}</h2>
+        <div className="board"> {this.generateRows()} </div>
+      </div>
+  )}
+
+  prepGameBoard = () => {
+    
+    let local = []
+    let temp = []
+
+    for (let i=0; i < 8; i++){
+      let choose = this.state.board[Math.floor(Math.random() * this.state.board.length)]
+      if (!temp.map(item => item.word).includes(choose.word)){
+        temp.push(choose)
+        let {flipped, word, image} = choose
+        let a = {flipped: false, word: word, image:image, id:(i+"a")}
+        let b = {flipped: false, word: word, image:image, id:(i+"b")}
+        local.push(a,b)
+      } else { i-- }
+    }
+
+    //Fisher-Yates Shuffle Algorithm!
+    for (let i= local.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * i)
+        const temp = local[i]
+        local[i] = local[j]
+        local[j] = temp
+    }
+    this.setState({board:local, timesUp:false})
+  }
+
+  generateRows = ()=> {
+    return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice}/>)
+  }
+
+  newGame = () => {
+    this.setState(INITIAL_STATE)
+
+    console.log(`Choosing tiles`)
+    this.prepGameBoard()
+    this.postNewUserGame()
+    this.setState({time: Date.now()})
+  } 
+
+  changeTimer = (choice) => {
+    let level = choice.target.value
+    let time = 0
+    switch (level) {
+        case 'Easy':
+          time=60
+          break;
+        case 'Medium':
+          time=40
+          break
+        case 'Hard':
+          time=20
+          break;
+        default:
+          console.log(`Input Failure`);
+    }
+    console.log(`Start: ${Date.now()}`)
+    this.setState({difficulty:time, timesUp:false, time: Date.now()})
   }
 
 
   setChoice = (cell) =>{
 
+    if (!this.state.timesUp){
     if (!this.state.matched.includes(cell)){
 
     this.setState ({     
@@ -108,7 +187,7 @@ closeModal() {
     let pair = this.state.choice
     if (!pair) {
       this.setState({choice:cell })}
-    else {
+    else {                                  //get timer's previous state and pass it forward into render?
       setTimeout(() => {
       if ((pair.word === cell.word) && (pair.id !== cell.id)){
         console.log(`They match!`)
@@ -131,114 +210,59 @@ closeModal() {
       setTimeout(() => {this.setState({choice:null})}, 200)
     }  }
 
-    else { console.log(`This card has already been matched!`)}
+    else { console.log(`This card has already been matched!`)}}
   }
 
-  isAWin = (multiplier=2) => {
-    if ((this.state.score * multiplier) === this.state.board.length){
+  isAWin = () => {
+    if ((this.state.matched.length) === this.state.board.length){
 
-      //send an update to backend with score
-      this.setState({board:[], score:0})
-      this.setState({board:tiles})
-      this.prepGameBoard()
+      //final calculations
+      let elapsedTime = (Date.now() - this.state.time) / 1000
+      let balancedScore = (this.state.score / this.state.difficulty) * 100        
+      console.log(`Win: ${balancedScore} in ${elapsedTime}s`)   
+      this.setState({time: elapsedTime, score: balancedScore, timesUp:true})     
 
-      this.patchGame()
+      //update database
+      this.patchUserGame()
+
+      //call win image!
       this.openModal()
-    //   return alert("You win!")
     }
     else {
-      return console.log(`Current score: ${this.state.score * multiplier} / ${this.state.board.length} `)
+      return console.log(`Current score: ${this.state.score * 2} / ${this.state.board.length} `)
     }
     
   }
 
-  generateRows = ()=> {
-    return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice}/>)
-  }
+
+  gameEndsWithTimeOut = () => {
+    //final calculations
+    let elapsedTime = (Date.now() - this.state.time) / 1000
+    let balancedScore = parseInt((this.state.score / this.state.difficulty) * 100)     
+    console.log(`Timeout: ${balancedScore} in ${elapsedTime}s`)   
+
+    this.setState({time: elapsedTime, score: balancedScore, timesUp: true}, () => this.patchUserGame())     
+}
 
 
-  chooseTiles = () => {
-    return(
-      <div>
-        Choose a Tile Set
-        <select onChange={this.handleTiles}>
-          <option value="Default">Default</option>
-          <option value="shapes">Shapes</option>
-          <option value="colors">Colors</option>
-        </select>
-      </div>
-    )
-  }
+    openModal() {
+        this.setState({
+            visible : true
+        });
+    }   
 
-  handleTiles = (choice) => {
-    console.log(`Chose ${choice.target.value}`)
-  }
-
-
-  chooseDifficulty = () => {
-    return (
-      <div>
-        Choose the Game Difficulty
-        <select onChange={this.changeTimer}>
-          <option value="60000">Easy</option>
-          <option value="45000">Medium</option>
-          <option value="30000">Hard</option>
-          <option value="20000">Extreme</option>
-        </select>
-      </div>
-    )
-  }
-
-  changeTimer = (choice) => {
-    let time = choice.target.value
-    this.setState({difficulty:time})
-  }
-
-  startTimer = () => {
-    return <h2><Countdown date={Date.now() + parseInt(this.state.difficulty)}/></h2>
-  } 
-
-  completed = () => {
-    //   return (<span>Time's up!</span>)
-  }
-
-  prepGameBoard = () => {
-    
-    let local = []
-    let temp = []
-    
-    for (let i=0; i < 8; i++){
-      let choose = this.state.board[Math.floor(Math.random() * this.state.board.length)]
-
-      if (!temp.includes(choose)){
-        temp.push(choose)
-        let {flipped, word, image} = choose
-        let a = {flipped: flipped, word: word, image:image, id:(i+"a")}
-        let b = {flipped: flipped, word: word, image:image, id:(i+"b")}
-        local.push(a,b)
-      } else { i-- }
+    closeModal() {
+        this.setState({
+            visible : false
+        });
     }
-
-    //Fisher-Yates Shuffle Algorithm!
-    for (let i= local.length - 1; i > 0; i--){
-        const j = Math.floor(Math.random() * i)
-        const temp = local[i]
-        local[i] = local[j]
-        local[j] = temp
-    }
-    this.setState({board:local})
-  }
 
   render() {
       return (
           <div>
             <Container>
                 <Jumbotron>
-                {this.chooseDifficulty()}
-                {this.startTimer()}
-                <div className="board">
-                    {this.generateRows()}
-                </div>
+                {this.startGame()}
                 </Jumbotron>
                 <Modal displayClassName="modal" show={this.state.visible} width="400" height="800" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div className="win">
