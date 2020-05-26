@@ -28,6 +28,7 @@ const AuthHOC = WrappedComponent => {
           if (resp.error) {
             this.props.history.push("/login")
           } else {
+            
             this.setState({
               authorized: true
             });
