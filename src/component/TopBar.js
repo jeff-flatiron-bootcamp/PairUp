@@ -6,7 +6,7 @@ import logo from "./LOGO.png"
 export class TopBar extends Component {
   handleLogout=()=>{
     this.props.onLogout()
-    localStorage.clear()
+    this.props.history.push('/login')
   }
     render() {
         return (
