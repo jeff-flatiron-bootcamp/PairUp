@@ -231,10 +231,6 @@ header {
     color: #c0392b!important;
 }
 
-h1 {
-  color: #c0392b!important;
-}
-
 #our-stats .counter {
     background-color: #60a3bc;
     border-color: #c0392b;
@@ -289,6 +285,13 @@ h1 {
 /* ----------------------- */
 /* WIN MODAL CSS */
 /* ----------------------- */
+
+.btn-primary {
+  color: #fff;
+  background-color: #d7514d !important;
+  border-color:#c0392b !important;
+}
+
 .modal-dialog {
   position: relative;
   top: 15%;

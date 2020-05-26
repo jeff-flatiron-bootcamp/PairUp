@@ -7,12 +7,12 @@ export class Leaderboard extends Component {
             <div class="container">
                 <section id="our-stats">
                     <h2 className="text-green h1 text-center">Leaderboards</h2>
-                    <p classNamr="text-uppercase text-center font-italic font-weight-light">Can you make it to the top?</p>
+                    <p className="text-uppercase text-center font-italic font-weight-light">Can you make it to the top?</p>
                 </section>
                 <div className="leaderboardContainer">
 
                     <div className="leaderboard">
-                        <h1><svg class="ico-cup"></svg>Top Players (Easy)</h1>
+                        <h1><svg className="ico-cup"></svg>Top Players (Easy)</h1>
                         <ol>
                             <li>
                                 <mark>Jerry Wood</mark>
@@ -38,7 +38,7 @@ export class Leaderboard extends Component {
                     </div>
 
                     <div className="leaderboard">
-                        <h1><svg class="ico-cup"></svg>Top Players (Medium)</h1>
+                        <h1><svg className="ico-cup"></svg>Top Players (Medium)</h1>
                         <ol>
                             <li>
                                 <mark>Jerry Wood</mark>
@@ -64,7 +64,7 @@ export class Leaderboard extends Component {
                     </div>
 
                     <div className="leaderboard">
-                        <h1><svg class="ico-cup"></svg>Top Players (Hard)</h1>
+                        <h1><svg className="ico-cup"></svg>Top Players (Hard)</h1>
                         <ol>
                             <li>
                                 <mark>Jerry Wood</mark>
