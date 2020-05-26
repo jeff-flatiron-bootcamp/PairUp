@@ -27,10 +27,10 @@ class Game extends Component {
 
   componentDidMount(){
     this.prepGameBoard() 
-    this.postNewGame()
+    this.postNewUserGame()
   }
 
-  postNewGame = () => {
+  postNewUserGame = () => {
     let token = localStorage.getItem('token');    
     fetch('http://localhost:3000/api/v1/newgame', {
       method: 'POST',
@@ -46,14 +46,14 @@ class Game extends Component {
       })     
     })
     .then(res => res.json())
-    .then(gameData => this.storeGame(gameData))
+    .then(userGameData => this.storeUserGame(userGameData))
   }
 
-  patchGame = () => {
+  patchUserGame = () => {
     let token = localStorage.getItem('token');  
-    let game = JSON.parse(localStorage.getItem('game'))
-    game.score = this.state.score // multiplier?
-    game.timer =  10 // difficulty time - leftover timer time
+    let user_game = JSON.parse(localStorage.getItem('user_game'))
+    user_game.score = this.state.score // multiplier?
+    user_game.timer =  10 // difficulty time - leftover timer time
 
 
     fetch('http://localhost:3000/api/v1/updategame', {
@@ -65,16 +65,18 @@ class Game extends Component {
       },
       body: JSON.stringify({
         user: {
-          game: game         //look at how to handle game difficulty level
+          user_game: user_game         //look at how to handle game difficulty level
         }      
       })     
     })
+    .then(res => res.json())
+    .then(json => console.log(json))
 
   }
 
-  storeGame = (gameData) => {
-    localStorage.setItem("game", JSON.stringify(gameData.created_game))
-    // this.patchGame()  // move this to the win method
+  storeUserGame = (userGameData) => {    
+    localStorage.setItem("user_game", JSON.stringify(userGameData.created_UserGame))
+    //this.patchUserGame()  // move this to the win method
   }
 
 
