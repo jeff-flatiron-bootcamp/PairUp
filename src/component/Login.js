@@ -59,7 +59,8 @@ export class Login extends Component {
 
     storeToken(json)
     {            
-      localStorage.setItem('user', JSON.stringify(json.user))
+    //   localStorage.setItem('user', JSON.stringify(json.user))
+      this.props.onLogin(json.user)
       localStorage.setItem('token', json.jwt)
     }
 

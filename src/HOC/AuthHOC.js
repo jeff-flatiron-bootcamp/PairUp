@@ -17,17 +17,19 @@ const AuthHOC = WrappedComponent => {
       if (!localStorage.getItem("token")) {
         this.props.history.push("/login")
       } else {
-        fetch(`http://localhost:3000/current_user`, {
+        fetch(`http://localhost:3000/check_user`, {
             headers:
         { "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: localStorage.getItem("token")
+        Authorization: `Bearer ${localStorage.getItem("token")}`
     }})
           .then(res => res.json())
         .then((resp) => {
+          console.log(resp)
           if (resp.error) {
             this.props.history.push("/login")
           } else {
+            this.props.setUser(resp.user)
             this.setState({
               authorized: true
             });

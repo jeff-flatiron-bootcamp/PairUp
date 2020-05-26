@@ -1,39 +1,53 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Jumbotron } from 'react-bootstrap'
 import ReactCountdownClock from 'react-countdown-clock'
-
+import { Container, Jumbotron, Modal, Button } from 'react-bootstrap'
+import trophy from './512px-Circle-icons-trophy_(dark).svg.png'
+import AuthHOC from '../HOC/AuthHOC'
+import fb from '../images/Facebook.png'
+import email from '../images/Email.png'
 import '../App.css';
 import {tiles} from '../data.js'
 import Cell from './Cell.js'
-// import Countdown from './Countdown'
 
 
 const URL = "localhost:3000"
+const  INITIAL_STATE= {
+    set: "colors",
 
+    board: tiles,
+    choice: null,
+    matched: [],
+    score: 0,
+    time: 0,
+    difficulty: 60,
+    timesUp: true,
+    visible : false
+  } 
 
-class Game extends PureComponent {
+class Game extends Component {
 
   constructor(props) {
-     super(props)
-    
-      this.state = {
-        set: "colors",
-
-        board: tiles,
-        choice: null,
-        matched: [],
-        score: 0,
-        time: 0,
-        difficulty: 60,
-        timesUp: true,
-      }
+    super(props)
+    this.state = INITIAL_STATE
   }
+
+  openModal() {
+    this.setState({
+        visible : true
+    });
+}
+
+closeModal() {
+    this.setState({
+        visible : false
+    });
+}
 
   componentDidMount(){
     this.prepGameBoard() 
-    this.postNewUserGame()
-    this.setState({time: Date.now()})
+    // this.postNewUserGame()
+    // this.setState({time: Date.now()})
   }
 
   postNewUserGame = () => {
@@ -130,23 +144,21 @@ class Game extends PureComponent {
   }
 
   isAWin = () => {
-    if ((this.state.score * 2) === this.state.board.length){
+    if ((this.state.matched.length) === this.state.board.length){
 
       //final calculations
-      let elapsedTime = Date.now() - this.state.time
-      let balancedScore = parseInt((this.state.score / this.state.difficulty) * 100)        
-      this.setState({time: elapsedTime, score: balancedScore})     
-
-      //call win image!
+      let elapsedTime = (Date.now() - this.state.time) / 1000
+      let balancedScore = (this.state.score / this.state.difficulty) * 100        
+      console.log(`Win: ${balancedScore} in ${elapsedTime}s`)   
+    //   this.setState({time: elapsedTime, score: balancedScore})     
 
       //update database
       this.patchUserGame()
 
-      //refresh board
-      this.setState({board:[], score:0, difficulty:60, time:0})
-      this.setState({board:tiles})
-      this.prepGameBoard()
+      this.setState(INITIAL_STATE)
 
+      //call win image!
+      this.openModal()
     }
     else {
       return console.log(`Current score: ${this.state.score * 2} / ${this.state.board.length} `)
@@ -158,14 +170,6 @@ class Game extends PureComponent {
     return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice}/>)
   }
 
-  
-//   handleTiles = (choice) => {
-//     console.log(`Chose ${choice.target.value}`)
-//     this.setState({set:choice.target.value}, 
-//         this.setState({board: [...this.state.board.filter(item => {if (item.category === this.state.set) {return item}})]
-//     }))
-
-//   }
 
   changeTimer = (choice) => {
     let level = choice.target.value
@@ -188,22 +192,21 @@ class Game extends PureComponent {
 
   }
 
-//   newGame = (event) => {
-//     event.preventDefault()
-//     console.log(`Resetting board and score`)
-//     this.setState({board:[], score:0})  
-//     console.log(`Refreshing tile selection`)
-//     this.setState({board:tiles})
-//     console.log(`Choosing tiles`)
-//     this.prepGameBoard()
-//   } 
+  newGame = () => {
+    console.log(`Choosing tiles`)
+    this.prepGameBoard()
+    this.postNewUserGame()
+    this.setState({time: Date.now()})
+  } 
 
   gameEndsWithTimeOut = () => {
     //final calculations
-    let elapsedTime = Date.now() - this.state.time
-    let balancedScore = parseInt((this.state.score / this.state.difficulty) * 100)        
-    this.setState({time: elapsedTime, score: balancedScore, timesUp: true})     
-  }
+    let elapsedTime = (Date.now() - this.state.time) / 1000
+    let balancedScore = parseInt((this.state.score / this.state.difficulty) * 100)     
+    console.log(`Timeout: ${balancedScore} in ${elapsedTime}s`)   
+    this.setState({time: elapsedTime, score: balancedScore, timesUp: true}, () => this.patchUserGame())     
+    this.setState(INITIAL_STATE)
+}
 
 
   prepGameBoard = () => {
@@ -213,7 +216,7 @@ class Game extends PureComponent {
 
     for (let i=0; i < 8; i++){
       let choose = this.state.board[Math.floor(Math.random() * this.state.board.length)]
-      if (!temp.includes(choose)){
+      if (!temp.map(item => item.word).includes(choose.word)){
         temp.push(choose)
         let {flipped, word, image} = choose
         let a = {flipped: flipped, word: word, image:image, id:(i+"a")}
@@ -237,22 +240,15 @@ class Game extends PureComponent {
         <div>
           <div>
            <form  >
-            {/* Choose a Tile Set
-            <select onChange={this.handleTiles}>
-              <option value="Default">Default</option>
-              <option value="shapes">Shapes</option>
-              <option value="colors">Colors</option>
-            </select> */}
-            {/* <input type="button" value="Start Game!" onClick={this.newGame}/> */}
-            Choose the Game Difficulty
+            {/* Choose the Game Difficulty
             <select name="time" onChange={this.changeTimer}>
                 <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
                 <option value="Hard">Hard</option>
-                {/* <option value="20000">Extreme</option> */}
-            </select>
+            </select> */}
+            <input type="button" value="Start Game!" onClick={this.newGame}/>
             </form>
-            <ReactCountdownClock seconds={this.state.difficulty} color="#cd4b4b" alpha={0.9} size={75} onComplete={this.gameEndsWithTimeOut} />
+            {/* <ReactCountdownClock seconds={this.state.difficulty} color="#cd4b4b" alpha={0.9} size={75} onComplete={this.gameEndsWithTimeOut} /> */}
           </div>
           <h2>Score: {this.state.score}</h2>
           <div className="board"> {this.generateRows()} </div>
@@ -264,9 +260,25 @@ class Game extends PureComponent {
       return (
           <div>
             <Container>
-                {/* <Jumbotron> */}
+                <Jumbotron>
                 {this.startGame()}
-                {/* </Jumbotron> */}
+                </Jumbotron>
+                <Modal displayClassName="modal" show={this.state.visible} width="400" height="800" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <div className="win">
+                        <h1>You Won!</h1>
+                        <img width="200" src={trophy} alt="win"/>
+                        <p>Game Dificulty: </p>
+                        <p>Your Score: </p>
+                        <p>Your Highscore: </p>
+                        <strong>Enjoying the Game? Share with your friends and family! </strong>
+                        <ul className="share-buttons">
+            <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.localhost3000%2F&quote=PairUp!" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src={fb} /></a></li>
+            <li><a href="mailto:?subject=PairUp!&body=Come%20play%20this%20super%20fun%20memory%20game%20and%20improve%20your%20memory!:%20http%3A%2F%2Fwww.localhost3000%2F" target="_blank" title="Send email"><img alt="Send email" src={email} /></a></li>
+          </ul>
+                        <Button variant="primary" onClick={()=> this.closeModal()}>Play Again! </Button>
+                        <Button variant="primary" onClick={()=> this.closeModal()}>Back to Home </Button>
+                    </div>
+                </Modal>
             </Container> 
         </div>
       )
@@ -274,4 +286,4 @@ class Game extends PureComponent {
 }
 
 
-export default Game
+export default AuthHOC(Game)
