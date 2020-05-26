@@ -1,36 +1,42 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Jumbotron } from 'react-bootstrap'
-import Countdown from 'react-countdown'
+import ReactCountdownClock from 'react-countdown-clock'
 
 import '../App.css';
 import {tiles} from '../data.js'
 import Cell from './Cell.js'
+// import Countdown from './Countdown'
+
 
 const URL = "localhost:3000"
 
 
-class Game extends Component {
+class Game extends PureComponent {
 
   constructor(props) {
-      super(props)
+     super(props)
     
       this.state = {
+        set: "colors",
+
         board: tiles,
         choice: null,
         matched: [],
         score: 0,
-        difficulty: 0,
-        time: 0
+        time: 0,
+        difficulty: 60,
+        timesUp: true,
       }
   }
 
   componentDidMount(){
     this.prepGameBoard() 
-    this.postNewGame()
+    this.postNewUserGame()
+    this.setState({time: Date.now()})
   }
 
-  postNewGame = () => {
+  postNewUserGame = () => {
     let token = localStorage.getItem('token');    
     fetch('http://localhost:3000/api/v1/newgame', {
       method: 'POST',
@@ -41,20 +47,19 @@ class Game extends Component {
       },
       body: JSON.stringify({
         user: {
-          game_type: "1"         //look at how to handle game difficulty level
+          game_type: "1"                                         //look at how to handle game difficulty level
         }      
       })     
     })
     .then(res => res.json())
-    .then(gameData => this.storeGame(gameData))
-    .then(console.log(`Created new game!`))
+    .then(userGameData => this.storeUserGame(userGameData))
   }
 
-  patchGame = () => {
+  patchUserGame = () => {
     let token = localStorage.getItem('token');  
-    let game = JSON.parse(localStorage.getItem('game'))
-    game.score = this.state.score // multiplier?
-    game.timer =  10 // difficulty time - leftover timer time
+    let user_game = JSON.parse(localStorage.getItem('user_game'))
+    user_game.score = this.state.score                          // multiplier?
+    user_game.timer =  10                                       // difficulty time - leftover timer time
 
 
     fetch('http://localhost:3000/api/v1/updategame', {
@@ -66,20 +71,23 @@ class Game extends Component {
       },
       body: JSON.stringify({
         user: {
-          game: game         //look at how to handle game difficulty level
+          user_game: user_game                                  //look at how to handle game difficulty level
         }      
       })     
     })
-    .then(console.log(`Updated game with ${game.score} points!`))
+    .then(res => res.json())
+    .then(json => console.log(`Updated db with: ${json}`))
+
   }
 
-  storeGame = (gameData) => {
-    localStorage.setItem("game", JSON.stringify(gameData.created_game))
+  storeUserGame = (userGameData) => {    
+    localStorage.setItem("user_game", JSON.stringify(userGameData.created_UserGame))
   }
 
 
   setChoice = (cell) =>{
 
+    if (!this.state.timesUp){
     if (!this.state.matched.includes(cell)){
 
     this.setState ({     
@@ -95,7 +103,7 @@ class Game extends Component {
     let pair = this.state.choice
     if (!pair) {
       this.setState({choice:cell })}
-    else {
+    else {                                  //get timer's previous state and pass it forward into render?
       setTimeout(() => {
       if ((pair.word === cell.word) && (pair.id !== cell.id)){
         console.log(`They match!`)
@@ -118,22 +126,30 @@ class Game extends Component {
       setTimeout(() => {this.setState({choice:null})}, 200)
     }  }
 
-    else { console.log(`This card has already been matched!`)}
+    else { console.log(`This card has already been matched!`)}}
   }
 
-  isAWin = (multiplier=2) => {
-    if ((this.state.score * multiplier) === this.state.board.length){
+  isAWin = () => {
+    if ((this.state.score * 2) === this.state.board.length){
 
-      //send an update to backend with score
-      this.patchGame()
-      this.setState({board:[], score:0})
+      //final calculations
+      let elapsedTime = Date.now() - this.state.time
+      let balancedScore = parseInt((this.state.score / this.state.difficulty) * 100)        
+      this.setState({time: elapsedTime, score: balancedScore})     
+
+      //call win image!
+
+      //update database
+      this.patchUserGame()
+
+      //refresh board
+      this.setState({board:[], score:0, difficulty:60, time:0})
       this.setState({board:tiles})
       this.prepGameBoard()
 
-      return alert("You win!")
     }
     else {
-      return console.log(`Current score: ${this.state.score * multiplier} / ${this.state.board.length} `)
+      return console.log(`Current score: ${this.state.score * 2} / ${this.state.board.length} `)
     }
     
   }
@@ -142,50 +158,51 @@ class Game extends Component {
     return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice}/>)
   }
 
+  
+//   handleTiles = (choice) => {
+//     console.log(`Chose ${choice.target.value}`)
+//     this.setState({set:choice.target.value}, 
+//         this.setState({board: [...this.state.board.filter(item => {if (item.category === this.state.set) {return item}})]
+//     }))
 
-  chooseTiles = () => {
-    return(
-      <div>
-        Choose a Tile Set
-        <select onChange={this.handleTiles}>
-          <option value="Default">Default</option>
-          <option value="shapes">Shapes</option>
-          <option value="colors">Colors</option>
-        </select>
-      </div>
-    )
-  }
-
-  handleTiles = (choice) => {
-    console.log(`Chose ${choice.target.value}`)
-  }
-
-
-  chooseDifficulty = () => {
-    return (
-      <div>
-        Choose the Game Difficulty
-        <select onChange={this.changeTimer}>
-          <option value="60000">Easy</option>
-          <option value="45000">Medium</option>
-          <option value="30000">Hard</option>
-          <option value="20000">Extreme</option>
-        </select>
-      </div>
-    )
-  }
+//   }
 
   changeTimer = (choice) => {
-    let time = choice.target.value
-    this.setState({difficulty:time})
+    let level = choice.target.value
+    let time = 0
+    switch (level) {
+        case 'Easy':
+          time=60
+          break;
+        case 'Medium':
+          time=40
+          break
+        case 'Hard':
+          time=20
+          break;
+        default:
+          console.log(`Input Failure`);
+    }
+    console.log(`Start: ${Date.now()}`)
+    this.setState({difficulty:time, timesUp:false, time: Date.now()})
+
   }
 
-  startTimer = () => {
-  return <h2><Countdown date={Date.now() + parseInt(this.state.difficulty)} onStart={null} /> </h2>
-  } 
+//   newGame = (event) => {
+//     event.preventDefault()
+//     console.log(`Resetting board and score`)
+//     this.setState({board:[], score:0})  
+//     console.log(`Refreshing tile selection`)
+//     this.setState({board:tiles})
+//     console.log(`Choosing tiles`)
+//     this.prepGameBoard()
+//   } 
 
-  completed = () => {
-    //   return (<span>Time's up!</span>)
+  gameEndsWithTimeOut = () => {
+    //final calculations
+    let elapsedTime = Date.now() - this.state.time
+    let balancedScore = parseInt((this.state.score / this.state.difficulty) * 100)        
+    this.setState({time: elapsedTime, score: balancedScore, timesUp: true})     
   }
 
 
@@ -193,10 +210,9 @@ class Game extends Component {
     
     let local = []
     let temp = []
-    
+
     for (let i=0; i < 8; i++){
       let choose = this.state.board[Math.floor(Math.random() * this.state.board.length)]
-
       if (!temp.includes(choose)){
         temp.push(choose)
         let {flipped, word, image} = choose
@@ -213,7 +229,35 @@ class Game extends Component {
         local[i] = local[j]
         local[j] = temp
     }
-    this.setState({board:local})
+    this.setState({board:local, timesUp:false})
+  }
+
+  startGame = () => {
+      return (
+        <div>
+          <div>
+           <form  >
+            {/* Choose a Tile Set
+            <select onChange={this.handleTiles}>
+              <option value="Default">Default</option>
+              <option value="shapes">Shapes</option>
+              <option value="colors">Colors</option>
+            </select> */}
+            {/* <input type="button" value="Start Game!" onClick={this.newGame}/> */}
+            Choose the Game Difficulty
+            <select name="time" onChange={this.changeTimer}>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+                {/* <option value="20000">Extreme</option> */}
+            </select>
+            </form>
+            <ReactCountdownClock seconds={this.state.difficulty} color="#cd4b4b" alpha={0.9} size={75} onComplete={this.gameEndsWithTimeOut} />
+          </div>
+          <h2>Score: {this.state.score}</h2>
+          <div className="board"> {this.generateRows()} </div>
+        </div>
+    )
   }
 
   render() {
@@ -221,12 +265,7 @@ class Game extends Component {
           <div>
             <Container>
                 {/* <Jumbotron> */}
-                {this.chooseDifficulty()}
-                {this.startTimer()}
-                <h2>Score: {this.state.score}</h2>
-                <div className="board">
-                    {this.generateRows()}
-                </div>
+                {this.startGame()}
                 {/* </Jumbotron> */}
             </Container> 
         </div>
