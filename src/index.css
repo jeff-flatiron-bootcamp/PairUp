@@ -10,6 +10,10 @@ body {
   background-color: #ECEBE4!important;
 }
 
+.jumbotron {
+ background-color: #ECEBE4 !important;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
@@ -18,11 +22,11 @@ code {
   display: grid; 
   grid-template-columns: 1in 1in 1in 1in;
   grid-template-rows: 1in 1in 1in 1in;
-  margin: 2in;
 }
 
 .cell-container {
   border:solid;
+  border-color: #ECEBE4;
   background-color: #e0574f;
 }
 
@@ -39,9 +43,17 @@ header {
     width: 30%;
     height: auto;
 }
-
-.navbar-light .navbar-nav .nav-link {
+.navbar-light .navbar-text a {
   color: #ECEBE4!important;
+}
+
+.navbar-text {
+  display: inline-block;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  color: #ECEBE4!important;
+  padding-left: 25px;
+  cursor: pointer;
 }
 
 .navbar{
@@ -85,7 +97,7 @@ header {
   background-color: #e0574f;
   border-color: #60a3bc;
   border: solid;
-  color: black;
+  color: #ECEBE4;
 }
 
 /* Style the back side */
@@ -219,6 +231,10 @@ header {
     color: #c0392b!important;
 }
 
+h1 {
+  color: #c0392b!important;
+}
+
 #our-stats .counter {
     background-color: #60a3bc;
     border-color: #c0392b;
@@ -268,4 +284,46 @@ header {
   line-height: 60px;
   background-color: #c0392b;
   display: block;
+}
+
+/* ----------------------- */
+/* WIN MODAL CSS */
+/* ----------------------- */
+.modal-dialog {
+  position: relative;
+  top: 15%;
+}
+.win {
+  text-align: center;
+  background-color: #60a3bc;
+
+}
+
+.win button{
+  background-color: #c0392b;
+  color: #ECEBE4;
+}
+
+/* ----------------------- */
+/* SHARE BTN CSS */
+/* ----------------------- */
+
+ul.share-buttons{
+  list-style: none;
+  padding: 0;
+}
+
+ul.share-buttons li{
+  display: inline;
+}
+
+ul.share-buttons .sr-only{
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
 }

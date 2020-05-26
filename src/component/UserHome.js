@@ -3,7 +3,7 @@ import AuthHOC from '../HOC/AuthHOC'
 
 export class UserHome extends Component {
     render() {
-		const name=JSON.parse(localStorage.getItem('user')).username
+		const name=this.props.user ? this.props.user.username : "player"
         return (
 <div className="container">
 	<section id="our-stats">

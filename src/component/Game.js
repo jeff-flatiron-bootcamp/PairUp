@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Jumbotron } from 'react-bootstrap'
+import { Container, Jumbotron, Modal, Button } from 'react-bootstrap'
 import Countdown from 'react-countdown'
-
 import '../App.css';
 import {tiles} from '../data.js'
 import Cell from './Cell.js'
+import trophy from './512px-Circle-icons-trophy_(dark).svg.png'
+import AuthHOC from '../HOC/AuthHOC'
+import fb from '../images/Facebook.png'
+import email from '../images/Email.png'
 
 const URL = "localhost:3000"
-
 
 class Game extends Component {
 
@@ -21,10 +23,21 @@ class Game extends Component {
         matched: [],
         score: 0,
         difficulty: 0,
-        time: 0
+        time: 0,
+        visible : false
       }
   }
+  openModal() {
+    this.setState({
+        visible : true
+    });
+}
 
+closeModal() {
+    this.setState({
+        visible : false
+    });
+}
   componentDidMount(){
     this.prepGameBoard() 
     this.postNewUserGame()
@@ -132,7 +145,8 @@ class Game extends Component {
       this.prepGameBoard()
 
       this.patchGame()
-      return alert("You win!")
+      this.openModal()
+    //   return alert("You win!")
     }
     else {
       return console.log(`Current score: ${this.state.score * multiplier} / ${this.state.board.length} `)
@@ -228,6 +242,22 @@ class Game extends Component {
                     {this.generateRows()}
                 </div>
                 </Jumbotron>
+                <Modal displayClassName="modal" show={this.state.visible} width="400" height="800" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <div className="win">
+                        <h1>You Won!</h1>
+                        <img width="200" src={trophy} alt="win"/>
+                        <p>Game Dificulty: </p>
+                        <p>Your Score: </p>
+                        <p>Your Highscore: </p>
+                        <strong>Enjoying the Game? Share with your friends and family! </strong>
+                        <ul className="share-buttons">
+            <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.localhost3000%2F&quote=PairUp!" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src={fb} /></a></li>
+            <li><a href="mailto:?subject=PairUp!&body=Come%20play%20this%20super%20fun%20memory%20game%20and%20improve%20your%20memory!:%20http%3A%2F%2Fwww.localhost3000%2F" target="_blank" title="Send email"><img alt="Send email" src={email} /></a></li>
+          </ul>
+                        <Button variant="primary" onClick={()=> this.closeModal()}>Play Again! </Button>
+                        <Button variant="primary" onClick={()=> this.closeModal()}>Back to Home </Button>
+                    </div>
+                </Modal>
             </Container> 
         </div>
       )
@@ -235,4 +265,4 @@ class Game extends Component {
 }
 
 
-export default Game
+export default AuthHOC(Game)
