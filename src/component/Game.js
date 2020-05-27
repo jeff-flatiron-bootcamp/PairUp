@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactCountdownClock from 'react-countdown-clock'
 import { Container, Jumbotron} from 'react-bootstrap'
-import { shapes, colors } from '../data.js'
+import {tiles } from '../data.js'
 import '../App.css';
 import Cell from './Cell.js'
 
 
 
 const INITIAL_STATE = {
-    board: colors,
+    board: tiles[0],
     choice: null,
     matched: [],
     score:0,
@@ -21,9 +21,9 @@ const INITIAL_STATE = {
 class Game extends Component {
 
     state = INITIAL_STATE
+
     componentDidMount() {
-        this.setTiles(this.props.tileSet)
-        this.prepGameBoard()
+        this.prepGameBoard(this.props.tileSet)
         this.postNewUserGame()
         this.changeTimer()
         this.setState({ time: Date.now() })
@@ -91,32 +91,32 @@ class Game extends Component {
         )
     }
     
-    setTiles = (tiles) => {
-        switch(tiles){
-            case 'colors':
-                this.setState({board: colors})
-                break;
-            case 'shapes':
-                this.setState({board: shapes})
-                break;
-            default: this.setState({board: colors})
-        }
-    }
 
+    prepGameBoard = (tileSet) => {
 
-    prepGameBoard = () => {
         let local = []
         let temp = []
+
+        switch(tileSet){
+            case 'colors':
+                temp = tiles[0]
+                break;
+            case 'shapes':
+                temp = tiles[1]
+                break;
+            default: temp = tiles[0]
+        }
+        
         for (let i = 0; i < 8; i++) {
-            let choose = this.state.board[Math.floor(Math.random() * this.state.board.length)]
-            if (!temp.map(item => item.word).includes(choose.word)) {
-                temp.push(choose)
+            let choose = temp[Math.floor(Math.random() * temp.length)]
+            if (!local.map(item => item.word).includes(choose.word)) {
                 let { word, image } = choose
                 let a = { flipped: false, word: word, image: image, id: (i + "a") }
                 let b = { flipped: false, word: word, image: image, id: (i + "b") }
                 local.push(a, b)
             } else { i-- }
         }
+
         //Fisher-Yates Shuffle Algorithm!
         for (let i = local.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i)
@@ -240,7 +240,7 @@ class Game extends Component {
             <div>
                 <Container>
                     <Jumbotron>
-                        {this.startGame()}
+                        {(this.state.time === 0)? null : (this.startGame())}
                     </Jumbotron>
                 </Container>
             </div>
