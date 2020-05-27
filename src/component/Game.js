@@ -9,6 +9,7 @@ import email from '../images/Email.png'
 import '../App.css';
 import {tiles} from '../data.js'
 import Cell from './Cell.js'
+import {Link} from 'react-router-dom'
 
 
 const URL = "localhost:3000"
@@ -33,7 +34,8 @@ class Game extends Component {
   }
 
   componentDidMount(){
-    this.prepGameBoard() 
+    this.prepGameBoard()
+    this.postNewUserGame()
   }
 
 
@@ -50,7 +52,8 @@ class Game extends Component {
       },
       body: JSON.stringify({
         user: {
-          game_type: "1"                                         //look at how to handle game difficulty level
+          game_type: "1",
+          score: 0                                         //look at how to handle game difficulty level
         }      
       })     
     })
@@ -141,7 +144,6 @@ class Game extends Component {
 
   newGame = () => {
     this.setState(INITIAL_STATE)
-
     console.log(`Choosing tiles`)
     this.prepGameBoard()
     this.postNewUserGame()
@@ -220,10 +222,7 @@ class Game extends Component {
       let elapsedTime = (Date.now() - this.state.time) / 1000
       let balancedScore = (this.state.score / this.state.difficulty) * 100        
       console.log(`Win: ${balancedScore} in ${elapsedTime}s`)   
-      this.setState({time: elapsedTime, score: balancedScore, timesUp:true})     
-
-      //update database
-      this.patchUserGame()
+      this.setState({time: elapsedTime, score: balancedScore, timesUp:true}, ()=> this.patchUserGame())     
 
       //call win image!
       this.openModal()
@@ -269,15 +268,14 @@ class Game extends Component {
                         <h1>You Won!</h1>
                         <img width="200" src={trophy} alt="win"/>
                         <p>Game Dificulty: </p>
-                        <p>Your Score: </p>
-                        <p>Your Highscore: </p>
+                        <p>Your Score: {this.state.score}</p>
                         <strong>Enjoying the Game? Share with your friends and family! </strong>
                         <ul className="share-buttons">
             <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.localhost3000%2F&quote=PairUp!" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src={fb} /></a></li>
             <li><a href="mailto:?subject=PairUp!&body=Come%20play%20this%20super%20fun%20memory%20game%20and%20improve%20your%20memory!:%20http%3A%2F%2Fwww.localhost3000%2F" target="_blank" title="Send email"><img alt="Send email" src={email} /></a></li>
           </ul>
                         <Button variant="primary" onClick={()=> this.closeModal()}>Play Again! </Button>
-                        <Button variant="primary" onClick={()=> this.closeModal()}>Back to Home </Button>
+                        <Button variant="primary" onClick={()=> this.closeModal()}><Link to='/home'> Back to Home </Link></Button>
                     </div>
                 </Modal>
             </Container> 

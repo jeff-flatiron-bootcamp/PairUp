@@ -2,6 +2,27 @@ import React, { Component } from 'react'
 import AuthHOC from '../HOC/AuthHOC'
 
 export class Leaderboard extends Component {
+
+    state={
+        scores: {}
+    }
+
+    componentDidMount(){
+        fetch('http://localhost:3000/api/v1/high_scores', {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${ localStorage.getItem('token')}`
+            }
+          })
+          .then(res => res.json())
+          .then(res=>this.setState({scores: res.high_scores}))
+    }
+
+    makeScoresPretty(difficulty){
+    return  this.state.scores[difficulty].map(score =><li> <mark>{score.user.username}</mark><small>{score.user_game.score}</small></li>)
+
+    }
+
     render() {
         return (
             <div class="container">
@@ -14,78 +35,21 @@ export class Leaderboard extends Component {
                     <div className="leaderboard">
                         <h1><svg className="ico-cup"></svg>Top Players (Easy)</h1>
                         <ol>
-                            <li>
-                                <mark>Jerry Wood</mark>
-                                <small>315</small>
-                            </li>
-                            <li>
-                                <mark>Brandon Barnes</mark>
-                                <small>301</small>
-                            </li>
-                            <li>
-                                <mark>Raymond Knight</mark>
-                                <small>292</small>
-                            </li>
-                            <li>
-                                <mark>Trevor McCormick</mark>
-                                <small>245</small>
-                            </li>
-                            <li>
-                                <mark>Andrew Fox</mark>
-                                <small>203</small>
-                            </li>
-                        </ol>
+                       { !this.state.scores["easy_5"] ? null: this.makeScoresPretty("easy_5")}
+                       </ol>
                     </div>
 
                     <div className="leaderboard">
                         <h1><svg className="ico-cup"></svg>Top Players (Medium)</h1>
                         <ol>
-                            <li>
-                                <mark>Jerry Wood</mark>
-                                <small>315</small>
-                            </li>
-                            <li>
-                                <mark>Brandon Barnes</mark>
-                                <small>301</small>
-                            </li>
-                            <li>
-                                <mark>Raymond Knight</mark>
-                                <small>292</small>
-                            </li>
-                            <li>
-                                <mark>Trevor McCormick</mark>
-                                <small>245</small>
-                            </li>
-                            <li>
-                                <mark>Andrew Fox</mark>
-                                <small>203</small>
-                            </li>
+                        { !this.state.scores["easy_5"] ? null: this.makeScoresPretty("medium_5")}
                         </ol>
                     </div>
 
                     <div className="leaderboard">
                         <h1><svg className="ico-cup"></svg>Top Players (Hard)</h1>
                         <ol>
-                            <li>
-                                <mark>Jerry Wood</mark>
-                                <small>315</small>
-                            </li>
-                            <li>
-                                <mark>Brandon Barnes</mark>
-                                <small>301</small>
-                            </li>
-                            <li>
-                                <mark>Raymond Knight</mark>
-                                <small>292</small>
-                            </li>
-                            <li>
-                                <mark>Trevor McCormick</mark>
-                                <small>245</small>
-                            </li>
-                            <li>
-                                <mark>Andrew Fox</mark>
-                                <small>203</small>
-                            </li>
+                        { !this.state.scores["easy_5"] ? null: this.makeScoresPretty("hard_5")}
                         </ol>
                     </div>
                 </div>

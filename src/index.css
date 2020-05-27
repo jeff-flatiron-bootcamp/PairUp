@@ -331,7 +331,11 @@ ul.share-buttons .sr-only{
   overflow: hidden;
 }
 
-.img-fluid {
+.avatar {
   max-width: 10% !important;
   height: auto;
+}
+
+a {
+  color: #ECEBE4 !important;
 }

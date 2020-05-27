@@ -3,6 +3,7 @@ import AuthHOC from '../HOC/AuthHOC'
 
 export class UserHome extends Component {
 	render() {
+		console.log(this.props.user.user_games)
 		const name = this.props.user ? this.props.user.username : "Player"
 		return (
 			<div className="container">
@@ -16,9 +17,9 @@ export class UserHome extends Component {
 					</div>
 					<div className="row mb-5">
 				<div className="col text-center">
-				<img src={this.props.user.avatar} className="rounded-circle img-fluid" alt="" />
+				<img src={this.props.user.avatar} className="rounded-circle img-fluid avatar" alt="" />
 				</div>
-					</div> 
+					</div>
 					<div className="row text-center">
 						<div className="col">
 							<div className="counter">
