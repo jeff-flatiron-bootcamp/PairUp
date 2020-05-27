@@ -1,29 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
+import useSound from 'use-sound';
+import boopSfx from '../images/Card.wav';
 
-class Cell extends Component {
+const Cell = (props) => {
+    const { flipped, word, image } = props.cellContent
+    const [play] = useSound(boopSfx);
 
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            //  show: false
-        }
-    }
-
-    handleClick = ({cellContent, onSetChoice}) => {
+    const handleClick = ({ cellContent, onSetChoice }) => {
+        play()
         onSetChoice(cellContent)
     }
 
-    
-    render() {
-        const {flipped, word, image} = this.props.cellContent
-
-        return (
-            <div className="cell-container" onClick={() => this.handleClick(this.props)}>
-                {flipped ? <img alt={word} src={image}></img> : null}
-            </div>
-        )
-    }
+    return (
+        <div className="cell-container" onClick={() => handleClick(props)}>
+            {flipped ? <img alt={word} src={image}></img> : null}
+        </div>
+    )
 }
 
 export default Cell
