@@ -2,23 +2,19 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactCountdownClock from 'react-countdown-clock'
 import { Container, Jumbotron} from 'react-bootstrap'
-import AuthHOC from '../HOC/AuthHOC'
 import '../App.css';
 import { tiles } from '../data.js'
 import Cell from './Cell.js'
-import Form from './Form'
-import ModalComp from './ModalComp'
 
 const INITIAL_STATE = {
     set: "colors",
     board: tiles,
     choice: null,
     matched: [],
-    score: 0,
+    score:0,
     time: 0,
     difficulty: 60,
     timesUp: true,
-    visible: false
 }
 
 class Game extends Component {
@@ -28,6 +24,8 @@ class Game extends Component {
     componentDidMount() {
         this.prepGameBoard()
         this.postNewUserGame()
+        this.changeTimer()
+        this.setState({ time: Date.now() })
     }
 
     //backend functions
@@ -84,10 +82,9 @@ class Game extends Component {
     //frontend functions
     startGame = () => {
         return (
-            <div className="row mb-5">
-                <Form changeTimer={this.changeTimer} newGame={this.newGame}/>
+            <div>
                 <div className="col text-center" >
-                    {(this.state.timesUp) ? null : <ReactCountdownClock seconds={this.state.difficulty} color="#cd4b4b" alpha={0.9} size={75} onComplete={this.gameEndsWithTimeOut} /> }
+                    {(this.state.timesUp) ? null : <ReactCountdownClock seconds={this.state.difficulty} color="#cd4b4b" alpha={0.9} size={200} onComplete={this.gameEndsWithTimeOut} /> }
                     <h2>Score: {this.state.score}</h2>
                 </div>
                 <div className="board"> 
@@ -127,16 +124,8 @@ class Game extends Component {
         return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice} />)
     }
 
-    newGame = () => {
-        this.setState(INITIAL_STATE)
-        console.log(`Choosing tiles`)
-        this.prepGameBoard()
-        this.postNewUserGame()
-        this.setState({ time: Date.now() })
-    }
-
-    changeTimer = (choice) => {
-        let level = choice.target.value
+    changeTimer = () => {
+        let level = this.props.level
         let time = 0
         switch (level) {
             case 'Easy':
@@ -214,7 +203,7 @@ class Game extends Component {
             this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
 
             //call win image!
-            this.openModal()
+            this.props.setFinalScore(balancedScore)
         }
         else {
             return console.log(`Current score: ${this.state.score * 2} / ${this.state.board.length} `)
@@ -226,31 +215,21 @@ class Game extends Component {
         let elapsedTime = (Date.now() - this.state.time) / 1000
         let balancedScore = parseInt((this.state.score / this.state.difficulty) * 100)
         console.log(`Timeout: ${balancedScore} in ${elapsedTime}s`)
-
         this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
-    }
-
-    openModal=()=> {
-        this.setState({ visible: true })
-    }
-
-    closeModal=()=> {
-        this.setState({ visible: false })
+        this.props.setFinalScore(balancedScore)
     }
 
     render() {
-        const {visible, score}=this.state
         return (
             <div>
                 <Container>
                     <Jumbotron>
                         {this.startGame()}
                     </Jumbotron>
-                <ModalComp visible={visible} closeModal={this.closeModal} score={score}/>
                 </Container>
             </div>
         )
     }
 }
 
-export default AuthHOC(Game)
+export default Game
