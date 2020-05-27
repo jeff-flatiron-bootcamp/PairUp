@@ -85,7 +85,7 @@ class Game extends Component {
     startGame = () => {
         return (
             <div className="row mb-5">
-                <Form changeTimer={this.changeTimer} newGame={this.newGame}/>
+                <Form newGame={this.newGame}/>
                 <div className="col text-center" >
                     {(this.state.timesUp) ? null : <ReactCountdownClock seconds={this.state.difficulty} color="#cd4b4b" alpha={0.9} size={75} onComplete={this.gameEndsWithTimeOut} /> }
                     <h2>Score: {this.state.score}</h2>
@@ -127,18 +127,21 @@ class Game extends Component {
         return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice} />)
     }
 
-    newGame = () => {
+    newGame = (event) => {
+
+        let choice = event.currentTarget[0].value
+
         this.setState(INITIAL_STATE)
         console.log(`Choosing tiles`)
         this.prepGameBoard()
         this.postNewUserGame()
-        this.setState({ time: Date.now() })
+        let time = this.changeTimer(choice)
+        this.setState({ difficulty: time, timesUp: false, time: Date.now() })
     }
 
     changeTimer = (choice) => {
-        let level = choice.target.value
         let time = 0
-        switch (level) {
+        switch (choice) {
             case 'Easy':
                 time = 60
                 break;
@@ -151,8 +154,7 @@ class Game extends Component {
             default:
                 console.log(`Input Failure`);
         }
-        console.log(`Start: ${Date.now()}`)
-        this.setState({ difficulty: time, timesUp: false, time: Date.now() })
+        return time
     }
 
     setChoice = (cell) => {
@@ -207,9 +209,7 @@ class Game extends Component {
     isAWin = () => {
         if ((this.state.matched.length) === this.state.board.length) {
 
-            //final calculations
-            let elapsedTime = (Date.now() - this.state.time) / 1000
-            let balancedScore = (this.state.score / this.state.difficulty) * 100
+            let [elapsedTime, balancedScore] = this.gameStats()
             console.log(`Win: ${balancedScore} in ${elapsedTime}s`)
             this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
 
@@ -223,11 +223,18 @@ class Game extends Component {
 
     gameEndsWithTimeOut = () => {
         //final calculations
-        let elapsedTime = (Date.now() - this.state.time) / 1000
-        let balancedScore = parseInt((this.state.score / this.state.difficulty) * 100)
+        let [elapsedTime, balancedScore] = this.gameStats()
         console.log(`Timeout: ${balancedScore} in ${elapsedTime}s`)
 
         this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
+    }
+
+    gameStats = () => {
+            //final calculations
+            let elapsedTime = Math.floor((Date.now() - this.state.time) / 1000)
+
+            let balancedScore = Math.floor(((this.state.score * this.state.difficulty) / elapsedTime) * 10)
+            return [elapsedTime, balancedScore]
     }
 
     openModal=()=> {

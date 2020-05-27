@@ -4,14 +4,14 @@ export class Form extends Component {
     render() {
         return (
                 <div className="col text-center">
-                    <form  >
+                    <form  onClick={this.props.newGame} >
                         Choose the Game Difficulty
-                        <select name="time" onChange={this.props.changeTimer}>
+                        <select name="time" >
                             <option value="Easy">Easy</option>
                             <option value="Medium">Medium</option>
                             <option value="Hard">Hard</option>
                         </select>
-                        <input type="button" value="Start Game!" onClick={this.props.newGame} />
+                        <input type="button" value="Start Game!"/>
                     </form>
                 </div>
         )
