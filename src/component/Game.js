@@ -5,7 +5,6 @@ import { Container, Jumbotron} from 'react-bootstrap'
 import '../App.css';
 import { tiles } from '../data.js'
 import Cell from './Cell.js'
-
 const INITIAL_STATE = {
     set: "colors",
     board: tiles,
@@ -16,18 +15,14 @@ const INITIAL_STATE = {
     difficulty: 60,
     timesUp: true,
 }
-
 class Game extends Component {
-
     state = INITIAL_STATE
-
     componentDidMount() {
         this.prepGameBoard()
         this.postNewUserGame()
         this.changeTimer()
         this.setState({ time: Date.now() })
     }
-
     //backend functions
     postNewUserGame = () => {
         let token = localStorage.getItem('token');
@@ -41,7 +36,7 @@ class Game extends Component {
             },
             body: JSON.stringify({
                 user: {
-                    game_type: "1",
+                    game_type: this.props.level,
                     score: 0                                         //look at how to handle game difficulty level
                 }
             })
@@ -49,14 +44,11 @@ class Game extends Component {
             .then(res => res.json())
             .then(userGameData => this.storeUserGame(userGameData))
     }
-
     patchUserGame = () => {
         let token = localStorage.getItem('token');
         let user_game = JSON.parse(localStorage.getItem('user_game'))
         user_game.score = this.state.score                          // multiplier?
         user_game.timer = 10                                       // difficulty time - leftover timer time
-
-
         fetch('http://localhost:3000/api/v1/updategame', {
             method: 'PATCH',
             headers: {
@@ -72,13 +64,10 @@ class Game extends Component {
         })
             .then(res => res.json())
             .then(json => console.log(`Updated db with: ${json}`))
-
     }
-
     storeUserGame = (userGameData) => {
         localStorage.setItem("user_game", JSON.stringify(userGameData.created_UserGame))
     }
-
     //frontend functions
     startGame = () => {
         return (
@@ -95,12 +84,9 @@ class Game extends Component {
             </div>
         )
     }
-
     prepGameBoard = () => {
-
         let local = []
         let temp = []
-
         for (let i = 0; i < 8; i++) {
             let choose = this.state.board[Math.floor(Math.random() * this.state.board.length)]
             if (!temp.map(item => item.word).includes(choose.word)) {
@@ -111,7 +97,6 @@ class Game extends Component {
                 local.push(a, b)
             } else { i-- }
         }
-
         //Fisher-Yates Shuffle Algorithm!
         for (let i = local.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * i)
@@ -121,11 +106,9 @@ class Game extends Component {
         }
         this.setState({ board: local, timesUp: false })
     }
-
     generateRows = () => {
         return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice} />)
     }
-
     changeTimer = () => {
         let level = this.props.level
         let time = 0
@@ -146,10 +129,8 @@ class Game extends Component {
     }
 
     setChoice = (cell) => {
-
         if (!this.state.timesUp) {
             if (!this.state.matched.includes(cell)) {
-
                 this.setState({
                     board: this.state.board.map(card => {
                         if (card === cell) {
@@ -158,7 +139,6 @@ class Game extends Component {
                         return card
                     })
                 })
-
                 let pair = this.state.choice
                 if (!pair) {
                     this.setState({ choice: cell })
@@ -185,11 +165,9 @@ class Game extends Component {
                             })
                         }
                     }, 750)
-
                     setTimeout(() => { this.setState({ choice: null }) }, 200)
                 }
             }
-
             else { console.log(`This card has already been matched!`) }
         }
     }
@@ -197,27 +175,44 @@ class Game extends Component {
     isAWin = () => {
         if ((this.state.matched.length) === this.state.board.length) {
 
-            //final calculations
-            let elapsedTime = (Date.now() - this.state.time) / 1000
-            let balancedScore = (this.state.score / this.state.difficulty) * 100
-            console.log(`Win: ${balancedScore} in ${elapsedTime}s`)
-            this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
+        let [elapsedTime, balancedScore] = this.gameStats()
+        console.log(`Win: ${balancedScore} in ${elapsedTime}s`)
+        this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
 
-            //call win image!
-            this.props.setFinalScore(balancedScore, true)
+        this.props.setFinalScore(balancedScore, true)
         }
         else {
-            return console.log(`Current score: ${this.state.score * 2} / ${this.state.board.length} `)
+        return console.log(`Current score: ${this.state.score * 2} / ${this.state.board.length} `)
         }
     }
 
     gameEndsWithTimeOut = () => {
         //final calculations
-        let elapsedTime = (Date.now() - this.state.time) / 1000
-        let balancedScore = parseInt((this.state.score / this.state.difficulty) * 100)
+        let [elapsedTime, balancedScore] = this.gameStats()
         console.log(`Timeout: ${balancedScore} in ${elapsedTime}s`)
         this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
         this.props.setFinalScore(balancedScore, false)
+    }
+
+    gameStats = () => {
+        //final calculations
+        let multiplier
+        switch (this.state.difficulty) {
+            case 60:
+                multiplier = 20
+                break;
+            case 40:
+                multiplier = 40
+                break
+            case 20:
+                multiplier = 60
+                break;
+            default: multiplier = 10;
+        } 
+        let elapsedTime = Math.floor((Date.now() - this.state.time) / 1000)        
+        let balancedScore = Math.floor((this.state.score * multiplier) - elapsedTime)
+
+        return [elapsedTime, balancedScore]
     }
 
     render() {
@@ -232,5 +227,4 @@ class Game extends Component {
         )
     }
 }
-
 export default Game

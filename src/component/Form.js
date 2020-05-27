@@ -17,7 +17,7 @@ export class Form extends Component {
     render() {
         return (
                 <div className="col text-center">
-                    <form  >
+                    <form >
                         Choose the Game Difficulty
                         <select name="time" onChange={(event)=>this.handleChange(event)}>
                             <option value="Easy">Easy</option>
