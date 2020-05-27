@@ -1,4 +1,5 @@
-let colors = [
+let tiles = 
+[[
     {flipped: false, word:"black", image:'./Cards/Colors/black.jpeg'},
     {flipped: false, word:"blue", image:'./Cards/Colors/blue.jpeg'},
     {flipped: false, word:"brown", image:'./Cards/Colors/brown.jpeg'},
@@ -9,9 +10,8 @@ let colors = [
     {flipped: false, word:"red", image:'./Cards/Colors/red.jpeg'},
     {flipped: false, word:"white", image:'./Cards/Colors/white.jpeg'},
     {flipped: false, word:"yellow", image:'./Cards/Colors/yellow.jpeg'}
-]
-
-let shapes = [
+],
+[
     {flipped: false, word:"arrow", image:'./Cards/Shapes/arrow.jpg'},
     {flipped: false, word:"circle", image:'./Cards/Shapes/circle.jpg'},
     {flipped: false, word:"ellipse", image:'./Cards/Shapes/ellipse.jpg'},
@@ -27,6 +27,6 @@ let shapes = [
     {flipped: false, word:"star", image:'./Cards/Shapes/star.jpg'},
     {flipped: false, word:"trefoil", image:'./Cards/Shapes/trefoil.jpg'},
     {flipped: false, word:"triangle", image:'./Cards/Shapes/triangle.jpg'},
-]
+]]
 
-export {colors, shapes}
+export {tiles}
