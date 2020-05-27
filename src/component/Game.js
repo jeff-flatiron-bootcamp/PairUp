@@ -3,11 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactCountdownClock from 'react-countdown-clock'
 import { Container, Jumbotron} from 'react-bootstrap'
 import '../App.css';
-import { tiles } from '../data.js'
+import { shapes, colors } from '../data.js'
 import Cell from './Cell.js'
+
+
 const INITIAL_STATE = {
-    set: "colors",
-    board: tiles,
+    board: colors,
     choice: null,
     matched: [],
     score:0,
@@ -18,11 +19,13 @@ const INITIAL_STATE = {
 class Game extends Component {
     state = INITIAL_STATE
     componentDidMount() {
+        this.selectTileSet(this.props.tileSet)
         this.prepGameBoard()
         this.postNewUserGame()
         this.changeTimer()
         this.setState({ time: Date.now() })
     }
+
     //backend functions
     postNewUserGame = () => {
         let token = localStorage.getItem('token');
@@ -81,6 +84,7 @@ class Game extends Component {
             </div>
         )
     }
+
     prepGameBoard = () => {
         let local = []
         let temp = []

@@ -9,7 +9,8 @@ export class GameContainer extends Component {
         visible: false,
         finalScore: 0,
         game: false,
-        level: "easy"
+        level: "easy",
+        tileSet: "colors"
     }
 
     openModal=()=> {
@@ -20,8 +21,8 @@ export class GameContainer extends Component {
         this.setState({ visible: false })
     }
 
-    formSubmit=(level)=>{
-        this.setState({game:true, level: level})
+    formSubmit=(level, tiles)=>{
+        this.setState({game:true, level: level, tileSet:tiles})
     }
 
     setFinalScore=(score)=>{
@@ -29,10 +30,10 @@ export class GameContainer extends Component {
     }
 
     render() {
-        const {visible, score, game, level}=this.state
+        const {visible, score, game, level, tileSet}=this.state
         return (
             <div className="row mb-5">
-                {game? <Game level={level} setFinalScore={this.setFinalScore}/> :<Form newGame={this.formSubmit}/>}
+                {game? <Game level={level} tileSet={tileSet} setFinalScore={this.setFinalScore}/> :<Form newGame={this.formSubmit}/>}
                 <ModalComp visible={visible} closeModal={this.closeModal} score={score}/>
             </div>
         )
