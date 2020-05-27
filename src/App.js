@@ -8,7 +8,7 @@ import Footer from './component/Footer'
 import Leaderboard from './component/Leaderboard';
 import UserHome from './component/UserHome'
 import About from './component/About'
-import Game from './component/Game'
+import GameContainer from './component/GameContainer'
 
 export default class App extends PureComponent {
 
@@ -35,7 +35,7 @@ export default class App extends PureComponent {
         <Route path= '/about' render={props => <About {...props} setUser={this.setUser} />}/>
         <Route path= '/home' render={props => <UserHome {...props} setUser={this.setUser} user={this.state.user} />}/>
         <Route path= '/leaderboard' render={props => <Leaderboard {...props} setUser={this.setUser} />}/>
-        <Route path= '/play' render={props => <Game {...props} setUser={this.setUser} />}/>
+        <Route path= '/play' render={props => <GameContainer {...props} setUser={this.setUser} />}/>
         </Router>
         <Footer />
         </Fragment>
