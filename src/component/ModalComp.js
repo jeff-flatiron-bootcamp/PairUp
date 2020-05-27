@@ -11,11 +11,11 @@ import lose from '../images/lose.ogg'
 const ModalComp = (props) => {
     const [play] = useSound(boopSfx)
     const [play1] = useSound(lose)
-    const {win, visible, score, closeModal, level }=props
-    useEffect(()=>{ if (win && visible)
+    const {win, visible, score, closeModal, level, sound }=props
+    useEffect(()=>{ if (win && visible && sound)
         {play()
         }
-        else if (visible){
+        else if (visible && sound){
         play1()
         }
     }, [visible])
