@@ -107,7 +107,7 @@ class Game extends Component {
         this.setState({ board: local, timesUp: false })
     }
     generateRows = () => {
-        return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice} />)
+        return this.state.board.map(val => <Cell sound={this.props.sound} key={val.id} cellContent={val} onSetChoice={this.setChoice} />)
     }
     changeTimer = () => {
         let level = this.props.level
