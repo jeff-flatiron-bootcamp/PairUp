@@ -6,7 +6,6 @@ export class About extends Component {
     render() {
         return (
             <div className="how-section1">
-       
                 <div className="row">
                     <div className="col-md-6 how-img">
                         <img src={puzzle} className="rounded-circle img-fluid" alt="" />
