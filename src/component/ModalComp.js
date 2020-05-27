@@ -1,13 +1,25 @@
-import React, { Component } from 'react'
+import React, {useEffect} from 'react'
 import trophy from './512px-Circle-icons-trophy_(dark).svg.png'
 import fb from '../images/Facebook.png'
 import email from '../images/Email.png'
 import { Link } from 'react-router-dom'
 import {Modal, Button} from 'react-bootstrap'
+import useSound from 'use-sound';
+import boopSfx from '../images/win.mp3'
+import lose from '../images/lose.ogg'
 
-export class ModalComp extends Component {
-    render() {
-        const{win, visible, score, closeModal, level}=this.props
+const ModalComp = (props) => {
+    const [play] = useSound(boopSfx)
+    const [play1] = useSound(lose)
+    const {win, visible, score, closeModal, level }=props
+    useEffect(()=>{ if (win && visible)
+        {play()
+        }
+        else if (visible){
+        play1()
+        }
+    }, [visible])
+
         return (
             <Modal displayClassName="modal" show={visible} width="400" height="800">
             <div className="win">
@@ -25,7 +37,6 @@ export class ModalComp extends Component {
             </div>
         </Modal>
         )
-    }
 }
 
 export default ModalComp
