@@ -7,7 +7,9 @@ const Cell = (props) => {
     const [play] = useSound(boopSfx);
 
     const handleClick = ({ cellContent, onSetChoice }) => {
-        play()
+       if (props.sound){
+           play()
+       }
         onSetChoice(cellContent)
     }
 

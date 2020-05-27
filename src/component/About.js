@@ -26,6 +26,32 @@ export class About extends Component {
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Red_Silhouette_-_Brain.svg/410px-Red_Silhouette_-_Brain.svg.png" className="rounded-circle img-fluid" alt="" />
                     </div>
                 </div>
+                {/* <div class="container contact-form">
+            <form method="post">
+                <h3>Drop Us a Message</h3>
+               <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="txtName" class="form-control" placeholder="Your Name *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="txtEmail" class="form-control" placeholder="Your Email *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="txtPhone" class="form-control" placeholder="Your Phone Number *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <textarea name="txtMsg" class="form-control" placeholder="Your Message *" ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+</div> */}
             </div>
         )
     }
