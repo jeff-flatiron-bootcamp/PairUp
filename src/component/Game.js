@@ -82,13 +82,15 @@ class Game extends Component {
     //frontend functions
     startGame = () => {
         return (
-            <div>
+            <div className="row mb-5">
                 <div className="col text-center" >
-                    {(this.state.timesUp) ? null : <ReactCountdownClock seconds={this.state.difficulty} color="#cd4b4b" alpha={0.9} size={200} onComplete={this.gameEndsWithTimeOut} /> }
+                    {(this.state.timesUp) ? null : <ReactCountdownClock seconds={this.state.difficulty} color="#60a3bc" alpha={0.9} size={200} onComplete={this.gameEndsWithTimeOut} /> }
                     <h2>Score: {this.state.score}</h2>
                 </div>
+                <div className="col text-center" >
                 <div className="board"> 
                     {this.generateRows()} 
+                </div>
                 </div>
             </div>
         )
@@ -140,7 +142,6 @@ class Game extends Component {
             default:
                 console.log(`Input Failure`);
         }
-        console.log(`Start: ${Date.now()}`)
         this.setState({ difficulty: time, timesUp: false, time: Date.now() })
     }
 
@@ -203,7 +204,7 @@ class Game extends Component {
             this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
 
             //call win image!
-            this.props.setFinalScore(balancedScore)
+            this.props.setFinalScore(balancedScore, true)
         }
         else {
             return console.log(`Current score: ${this.state.score * 2} / ${this.state.board.length} `)
@@ -216,7 +217,7 @@ class Game extends Component {
         let balancedScore = parseInt((this.state.score / this.state.difficulty) * 100)
         console.log(`Timeout: ${balancedScore} in ${elapsedTime}s`)
         this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
-        this.props.setFinalScore(balancedScore)
+        this.props.setFinalScore(balancedScore, false)
     }
 
     render() {

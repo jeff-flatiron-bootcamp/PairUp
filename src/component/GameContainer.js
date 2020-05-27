@@ -1,19 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Form from './Form'
 import Game from './Game'
 import AuthHOC from '../HOC/AuthHOC'
 import ModalComp from './ModalComp'
+import { Button } from 'react-bootstrap'
 
 export class GameContainer extends Component {
     state={
         visible: false,
         finalScore: 0,
         game: false,
-        level: "easy"
-    }
-
-    openModal=()=> {
-        this.setState({ visible: true })
+        level: "easy",
+        win:false
     }
 
     closeModal=()=> {
@@ -24,16 +22,21 @@ export class GameContainer extends Component {
         this.setState({game:true, level: level})
     }
 
-    setFinalScore=(score)=>{
-        this.setState({game:false, visible:true, finalScore: score})
+    setFinalScore=(score, win)=>{
+        this.setState({game:false, visible:true, finalScore: score, win: win})
+    }
+
+    handleClick=()=>{
+        this.setState({game:false})
     }
 
     render() {
-        const {visible, score, game, level}=this.state
+        const {visible, finalScore, game, level, win}=this.state
         return (
-            <div className="row mb-5">
+            <div className="col text-center" >
+                {game? <Button onClick={this.handleClick}>Stop Game!</Button>:null}
                 {game? <Game level={level} setFinalScore={this.setFinalScore}/> :<Form newGame={this.formSubmit}/>}
-                <ModalComp visible={visible} closeModal={this.closeModal} score={score}/>
+                <ModalComp visible={visible} closeModal={this.closeModal} score={finalScore} win={win} level={level}/>
             </div>
         )
     }

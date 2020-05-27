@@ -2,8 +2,23 @@ import React, { Component } from 'react'
 import AuthHOC from '../HOC/AuthHOC'
 
 export class UserHome extends Component {
+
+	state={
+        scores: {}
+    }
+
+    componentDidMount(){
+        fetch('http://localhost:3000/api/v1/user_high_scores', {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${ localStorage.getItem('token')}`
+            }
+          })
+          .then(res => res.json())
+          .then(res=>this.setState({scores: res.high_scores}))
+    }
+
 	render() {
-		console.log(this.props.user.user_games)
 		const name = this.props.user ? this.props.user.username : "Player"
 		return (
 			<div className="container">
@@ -17,38 +32,38 @@ export class UserHome extends Component {
 					</div>
 					<div className="row mb-5">
 				<div className="col text-center">
-				<img src={this.props.user.avatar} className="rounded-circle img-fluid avatar" alt="" />
+				{/* <img src={this.props.user.avatar} className="rounded-circle img-fluid avatar" alt="" /> */}
 				</div>
 					</div>
 					<div className="row text-center">
 						<div className="col">
 							<div className="counter">
 								<i className="fa fa-hourglass-o fa-2x text-green"></i>
-								<h2 className="timer count-title count-number" data-to="100" data-speed="1500">100</h2>
+								<h2 className="timer count-title count-number" data-to="100" data-speed="1500">{this.state.scores.easy? this.state.scores.easy.score: 0} points</h2>
 								<p className="count-text ">Highscore (Easy)</p>
 							</div>
 						</div>
 						<div className="col">
 							<div className="counter">
 								<i className="fa fa-hourglass-half fa-2x text-green"></i>
-								<h2 className="timer count-title count-number" data-to="1700" data-speed="1500">1,700</h2>
+								<h2 className="timer count-title count-number" data-to="1700" data-speed="1500">{this.state.scores.medium ? this.state.scores.medium.score: 0} points</h2>
 								<p className="count-text ">Highscore (Medium)</p>
 							</div>
 						</div>
 						<div className="col">
 							<div className="counter">
 								<i className="fa fa-hourglass fa-2x text-green"></i>
-								<h2 className="timer count-title count-number" data-to="11900" data-speed="1500">11,900</h2>
+								<h2 className="timer count-title count-number" data-to="11900" data-speed="1500">{this.state.scores.hard? this.state.scores.hard.score: 0} points</h2>
 								<p className="count-text ">Highscore (Hard)</p>
 							</div>
 						</div>
-						<div className="col">
+						{/* <div className="col">
 							<div className="counter">
 								<i className="fa fa-clock-o fa-2x text-green"></i>
 								<h2 className="timer count-title count-number" data-to="157" data-speed="1500">157</h2>
 								<p className="count-text ">Total Time Played</p>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</section>
 			</div>
