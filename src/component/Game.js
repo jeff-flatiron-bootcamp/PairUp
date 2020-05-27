@@ -26,6 +26,7 @@ class Game extends Component {
     //backend functions
     postNewUserGame = () => {
         let token = localStorage.getItem('token');
+
         fetch('http://localhost:3000/api/v1/newgame', {
             method: 'POST',
             headers: {
@@ -35,7 +36,7 @@ class Game extends Component {
             },
             body: JSON.stringify({
                 user: {
-                    game_type: "1",
+                    game_type: this.props.level,
                     score: 0                                         //look at how to handle game difficulty level
                 }
             })
@@ -70,13 +71,15 @@ class Game extends Component {
     //frontend functions
     startGame = () => {
         return (
-            <div>
+            <div className="row mb-5">
                 <div className="col text-center" >
-                    {(this.state.timesUp) ? null : <ReactCountdownClock seconds={this.state.difficulty} color="#cd4b4b" alpha={0.9} size={200} onComplete={this.gameEndsWithTimeOut} /> }
+                    {(this.state.timesUp) ? null : <ReactCountdownClock seconds={this.state.difficulty} color="#60a3bc" alpha={0.9} size={200} onComplete={this.gameEndsWithTimeOut} /> }
                     <h2>Score: {this.state.score}</h2>
                 </div>
+                <div className="col text-center" >
                 <div className="board"> 
                     {this.generateRows()} 
+                </div>
                 </div>
             </div>
         )
@@ -176,8 +179,7 @@ class Game extends Component {
         console.log(`Win: ${balancedScore} in ${elapsedTime}s`)
         this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
 
-        //call win image!
-        this.props.setFinalScore(balancedScore)
+        this.props.setFinalScore(balancedScore, true)
         }
         else {
         return console.log(`Current score: ${this.state.score * 2} / ${this.state.board.length} `)
@@ -189,7 +191,7 @@ class Game extends Component {
         let [elapsedTime, balancedScore] = this.gameStats()
         console.log(`Timeout: ${balancedScore} in ${elapsedTime}s`)
         this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
-        this.props.setFinalScore(balancedScore)
+        this.props.setFinalScore(balancedScore, false)
     }
 
     gameStats = () => {
