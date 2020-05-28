@@ -430,3 +430,7 @@ label {
   color: #000;
   font-weight: bold;
 }
+.chart {
+  margin-bottom: 20px;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}

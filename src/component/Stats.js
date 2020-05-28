@@ -7,14 +7,14 @@ import classes from "./Stats.css";
 
 export default class LineGraph extends Component {
     chartRef = React.createRef();
-    
+
     componentDidMount() {
         const myChartRef = this.chartRef.current.getContext("2d");
         // debugger
-        let {easy, medium, hard} = this.props.scores
+        let { easy, medium, hard } = this.props.scores
 
-        function average(array){
-            return Math.round(array.reduce((a,b) => a + b, 0)/array.length)
+        function average(array) {
+            return Math.round(array.reduce((a, b) => a + b, 0) / array.length)
         }
 
         new Chart(myChartRef, {
@@ -36,7 +36,7 @@ export default class LineGraph extends Component {
             },
             options: {
                 title: {
-                    text: "Games Stats By Difficulty Level", 
+                    text: "Games Stats By Difficulty Level",
                     display: true,
                     fontColor: "black",
                     fontSize: 30
@@ -65,11 +65,13 @@ export default class LineGraph extends Component {
     }
     render() {
         return (
-            <div className={classes.graphContainer}>
-                <canvas
-                    id="myChart"
-                    ref={this.chartRef}
-                />
+            <div className="chart">
+                <div className={classes.graphContainer}>
+                    <canvas
+                        id="myChart"
+                        ref={this.chartRef}
+                    />
+                </div>
             </div>
         )
     }
