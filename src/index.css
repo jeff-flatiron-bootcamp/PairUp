@@ -101,27 +101,26 @@ header {
 /* ----------------------- */
 
 .login-container{
-  margin-top: 5%;
   margin-bottom: 5%;
 }
 .login-form-1{
-  padding: 9%;
+  padding: 4%;
   background:#60a3bc;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
 }
 .login-form-1 h3{
   text-align: center;
-  margin-bottom:12%;
+  margin-bottom:6%;
   color:#fff;
 }
 .login-form-2{
-  padding: 9%;
+  padding: 4%;
   background: #c0392b;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
 }
 .login-form-2 h3{
   text-align: center;
-  margin-bottom:12%;
+  margin-bottom:6%;
   color: #fff;
 }
 .btnSubmit{
@@ -132,6 +131,9 @@ header {
   border: none;
   border-radius: 1.5rem;
   padding:2%;
+}
+.label-country {
+  color: white;
 }
 /* ----------------------- */
 /* LEADERBOARD CSS */

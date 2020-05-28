@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import avatar from '../images/avatar.png'
 
 export class Login extends Component {
@@ -77,10 +77,17 @@ export class Login extends Component {
 
     render() {
         return (
+            <Fragment>
+            <section id="our-stats">
+            <h2 className="text-green h1 text-center">Welcome!</h2>
+            <p className="text-uppercase text-center font-italic font-weight-light">Login or Signup Below to Play</p>
+        </section>
             <div className="container login-container">
+
                 <div className="row">
                     <div className="col-md-6 login-form-1">
                         <h3>Login!</h3>
+                        <hr/>
                         <form onSubmit={this.handleLogin}>
                             <div className="form-group">
                                 <input name="nameLogin" type="text" className="form-control" placeholder="User Name" value={this.state.nameLogin} onChange={this.handleChange} />
@@ -95,13 +102,14 @@ export class Login extends Component {
                     </div>
                     <div className="col-md-6 login-form-2">
                         <h3>Signup!</h3>
+                        <hr/>
                         <form onSubmit={this.handleCreateUser}>
                             <div className="form-group">
                                 <input name="nameSignup" type="text" className="form-control" placeholder="User Name" value={this.state.nameSignup} onChange={this.handleChange} />
                             </div>
                             <div className="form-group">
                                 {/* <input name="countrySignup" type="text" className="form-control" placeholder="Your Country" value={this.state.countrySignup} onChange={this.handleChange} /> */}
-                                <label>Country:</label>
+                                <label className= "label-country">Select Country:</label>
                                 <select onChange={this.handleChangeSelect}>
                                     <option value="AF">Afghanistan</option>
                                     <option value="AX">Åland Islands</option>
@@ -364,6 +372,7 @@ export class Login extends Component {
                     </div>
                 </div>
             </div>
+            </Fragment>
         )
     }
 }
