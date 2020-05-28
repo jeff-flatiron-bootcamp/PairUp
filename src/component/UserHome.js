@@ -23,8 +23,20 @@ export class UserHome extends Component {
 
 	handleFile = (event) => {
 		const file = event.target.files[0]
-		if (File) {
+		if (file) {
 			this.setState({ file: URL.createObjectURL(file) })
+			const formData = new FormData()
+			formData.append(0, file)
+
+			fetch('http://localhost:3000/api/v1/updateuser', {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				},
+				body: JSON.stringify({user: this.props.user, file: formData})
+			})
 		}
 	}
 

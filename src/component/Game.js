@@ -62,7 +62,7 @@ class Game extends Component {
             },
             body: JSON.stringify({
                 user: {
-                    user_game: user_game                                  //look at how to handle game difficulty level
+                    user_game: user_game                                 
                 }
             })
         })
