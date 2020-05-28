@@ -27,6 +27,26 @@ let tiles =
     {flipped: false, word:"star", image:'./Cards/Shapes/star.jpg'},
     {flipped: false, word:"trefoil", image:'./Cards/Shapes/trefoil.jpg'},
     {flipped: false, word:"triangle", image:'./Cards/Shapes/triangle.jpg'},
-]]
+],
+[
+    {word:'aman', image:'./Cards/Faces/aman.jpg'},
+    {word:'christine', image:'./Cards/Faces/christine.jpg'},
+    {word:'cindy', image:'./Cards/Faces/cindy.jpg'},
+    {word:'hal', image:'./Cards/Faces/hal.jpg'},
+    {word:'ix', image:'./Cards/Faces/ix.jpg'},
+    {word:'janu', image:'./Cards/Faces/janu.jpg'},
+    {word:'jazz', image:'./Cards/Faces/jazz.jpg'},
+    {word:'jeff', image:'./Cards/Faces/jeff.jpg'},
+    {word:'johnS', image:'./Cards/Faces/johnS.jpg'},
+    {word:'johnF', image:'./Cards/Faces/johnF.jpg'},
+    {word:'matt', image:'./Cards/Faces/matt.jpg'},
+    {word:'roger', image:'./Cards/Faces/roger.jpg'},
+    {word:'sara', image:'./Cards/Faces/sara.jpg'},
+    {word:'shunshun', image:'./Cards/Faces/shunshun.jpg'},
+    {word:'soundarya', image:'./Cards/Faces/soundarya.jpg'},
+    {word:'valerie', image:'./Cards/Faces/valerie.jpg'},
+    {word:'will', image:'./Cards/Faces/will.jpg'}
+]
+]
 
 export {tiles}

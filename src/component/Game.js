@@ -104,6 +104,9 @@ class Game extends Component {
             case 'shapes':
                 temp = tiles[1]
                 break;
+            case 'faces':
+                temp = tiles[2]
+                break;
             default: temp = tiles[0]
         }
         
