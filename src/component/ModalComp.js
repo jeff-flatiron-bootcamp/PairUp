@@ -29,7 +29,7 @@ const ModalComp = (props) => {
                 <p>Your Score: {score}</p>
                 <strong>Enjoying the Game? Share with your friends and family! </strong>
                 <ul className="share-buttons">
-                    <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.localhost3000%2F&quote=PairUp!" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src={fb} /></a></li>
+                    <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.localhost3000%2F&quote=ComePlayPairUp!" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src={fb} /></a></li>
                     <li><a href="mailto:?subject=PairUp!&body=Come%20play%20this%20super%20fun%20memory%20game%20and%20improve%20your%20memory!:%20http%3A%2F%2Fwww.localhost3000%2F" target="_blank" title="Send email"><img alt="Send email" src={email} /></a></li>
                 </ul>
                 <Button variant="primary" onClick={() => closeModal()}><Link to='/play'> Play Again! </Link> </Button>

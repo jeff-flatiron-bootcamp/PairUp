@@ -77,8 +77,11 @@ class Game extends Component {
         return (
             <div className="row mb-5">
                 <div className="col text-center" >
+                <h2 className="game-text"> Time Left:</h2>
+                <div className="col text-center counter" >
                     {(this.state.timesUp) ? null : <ReactCountdownClock seconds={this.state.difficulty} color="#60a3bc" alpha={0.9} size={200} onComplete={this.gameEndsWithTimeOut} /> }
-                    <h2> Pairs Matched: {this.state.score}</h2>
+                </div>
+                    <h2 className="game-text"> Pairs Matched: {this.state.score}</h2>
                 </div>
                 <div className="col text-center" >
                 <div className={`board-${this.props.number}`}> 

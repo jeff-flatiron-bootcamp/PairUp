@@ -15,7 +15,8 @@ export class Leaderboard extends Component {
           .then(res=>this.setState({scores: res.high_scores}))
     }
     makeScoresPretty(difficulty){
-    return  this.state.scores[difficulty].map(score =><li> <mark>{score.user.username}</mark><small>{score.user_game.score}</small></li>)
+    return  this.state.scores[difficulty].map(score =><li> <mark>{`${score.user.username} (${score.user.country})`}</mark><small>{score.user_game.score}</small></li>)
+
     }
     render() {
         return (
