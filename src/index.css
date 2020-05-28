@@ -40,10 +40,19 @@ code {
   border:solid;
   border-color: #ECEBE4;
   background-color: #e0574f;
+  height: 1in; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover;
 }
 
 .cell {
   padding: 30px;
+}
+
+.tile {
+  display:block;
+  margin:auto;
 }
 
 header {
