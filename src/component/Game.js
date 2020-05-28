@@ -52,7 +52,7 @@ class Game extends Component {
         let token = localStorage.getItem('token');
         let user_game = JSON.parse(localStorage.getItem('user_game'))
         user_game.score = this.state.score                          // multiplier?
-        user_game.timer = 10                                       // difficulty time - leftover timer time
+        user_game.time = this.state.time                                       // difficulty time - leftover timer time
         fetch('http://localhost:3000/api/v1/updategame', {
             method: 'PATCH',
             headers: {
