@@ -15,6 +15,9 @@ body {
  background-color: #ECEBE4 !important;
  padding: 30px !important;
 }
+.gamediv {
+  margin-bottom: 1rem!important;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -161,6 +164,7 @@ header {
   font-size: 18px;
   color: #e1e1e1;
   padding: 12px 13px 18px;
+  font-weight: bold;
 }
 .leaderboard h1 svg {
   width: 25px;
@@ -190,11 +194,14 @@ header {
   margin: 0;
   background: none;
   color: #fff;
+  font-weight: bold;
 }
 
 .leaderboard ol li small {
   display: block;
   text-align: right;
+  font-weight: bold;
+  color: #fff;
 }
 
 .leaderboard ol li:nth-child(1) {

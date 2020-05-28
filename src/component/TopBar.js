@@ -13,7 +13,6 @@ export class TopBar extends Component {
           <Fragment>
             <Navbar expand="lg">
             <Navbar.Brand href="/home" className="navbar-left"><img id="logo" src={logo} alt='PairUp!'/></Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Nav className="mr-auto">
                <Navbar.Text> <Link to="/play">Play!</Link></Navbar.Text> 
                <Navbar.Text> <Link to="/home">Home</Link></Navbar.Text>

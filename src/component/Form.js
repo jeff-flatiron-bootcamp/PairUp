@@ -65,6 +65,7 @@ export class Form extends Component {
                             <span class="slider round"></span>
                     </label>
                     </div>
+                    <hr/>
                     <div class="form-group">
                             <Button variant="primary" onClick={(event) => this.handleSubmit(event)}>Start Game!</Button>
                         </div>
