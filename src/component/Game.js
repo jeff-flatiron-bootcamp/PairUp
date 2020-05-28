@@ -190,7 +190,7 @@ class Game extends Component {
                                 })
                             })
                         }
-                    }, 750)
+                    }, 500)
                     setTimeout(() => { this.setState({ choice: null }) }, 200)
                 }
             }

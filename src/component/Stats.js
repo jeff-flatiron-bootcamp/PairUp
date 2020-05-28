@@ -5,7 +5,6 @@ import classes from "./Stats.css";
 
 //solve time by difficulty level
 
-
 export default class LineGraph extends Component {
     chartRef = React.createRef();
     
@@ -14,28 +13,52 @@ export default class LineGraph extends Component {
         // debugger
         let {easy, medium, hard} = this.props.scores
 
+        function average(array){
+            return Math.round(array.reduce((a,b) => a + b, 0)/array.length)
+        }
+
         new Chart(myChartRef, {
             type: "bar",
             data: {
-                //Bring in data
                 labels: ["Easy", "Medium", "Hard"],
                 datasets: [
                     {
-                        label: "Number Solved",
+                        label: "Total Number Solved",
                         data: [easy.length, medium.length, hard.length],
-                        backgroundColor: ["green", "yellow", "red"]
+                        backgroundColor: ["#60a3bc", "#60a3bc", "#60a3bc"]
                     },
                     {
                         label: "Average Score",
-                        data: [easy.reduce((a,b) => a + b, 0)/easy.length, medium.reduce((a,b) => a + b, 0)/medium.length, hard.reduce((a,b) => a + b, 0) / hard.length],
-                        backgroundColor: ["blue", "purple", "orange"]
+                        data: [average(easy), average(medium), average(hard)],
+                        backgroundColor: ["#c0392b", "#c0392b", "#c0392b"]
                     }
                 ]
             },
             options: {
                 title: {
-                    text: "Games Played per Difficulty Level", 
-                    display: true
+                    text: "Games Stats By Difficulty Level", 
+                    display: true,
+                    fontColor: "black",
+                    fontSize: 30
+                },
+                legend: {
+                    display: true,
+                    labels: {
+                        fontColor: 'black',
+                        fontSize: 20
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontSize: 20
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontSize: 20
+                        }
+                    }]
                 }
             }
         });
