@@ -12,6 +12,7 @@ body {
 
 .jumbotron {
  background-color: #ECEBE4 !important;
+ padding: 30px !important;
 }
 
 code {
