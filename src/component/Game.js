@@ -6,8 +6,6 @@ import {tiles } from '../data.js'
 import '../App.css';
 import Cell from './Cell.js'
 
-
-
 const INITIAL_STATE = {
     board: tiles[0],
     choice: null,
@@ -80,10 +78,10 @@ class Game extends Component {
             <div className="row mb-5">
                 <div className="col text-center" >
                     {(this.state.timesUp) ? null : <ReactCountdownClock seconds={this.state.difficulty} color="#60a3bc" alpha={0.9} size={200} onComplete={this.gameEndsWithTimeOut} /> }
-                    <h2>Score: {this.state.score}</h2>
+                    <h2> Pairs Matched: {this.state.score}</h2>
                 </div>
                 <div className="col text-center" >
-                <div className="board"> 
+                <div className={`board-${this.props.number}`}> 
                     {this.generateRows()} 
                 </div>
                 </div>
@@ -110,7 +108,7 @@ class Game extends Component {
             default: temp = tiles[0]
         }
         
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < this.props.number/2; i++) {
             let choose = temp[Math.floor(Math.random() * temp.length)]
             if (!local.map(item => item.word).includes(choose.word)) {
                 let { word, image } = choose
@@ -233,7 +231,10 @@ class Game extends Component {
             default: multiplier = 10;
         } 
         let elapsedTime = Math.floor((Date.now() - this.state.time) / 1000)        
-        let balancedScore = Math.floor((this.state.score * multiplier) - elapsedTime)
+        let balancedScore = Math.floor((this.state.score * multiplier) - elapsedTime)+(2*this.props.number)
+        if (balancedScore<0){
+            balancedScore=0
+        }
 
         return [elapsedTime, balancedScore]
     }

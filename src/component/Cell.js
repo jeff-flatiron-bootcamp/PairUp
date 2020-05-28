@@ -14,9 +14,12 @@ const Cell = (props) => {
     }
 
     return (
-        <div className="cell-container" onClick={() => handleClick(props)}>
-            {flipped ? <img alt={word} src={image}></img> : null}
+        flipped? 
+        <div style={{backgroundImage: `url(${image}`}} alt={word} className="cell-container" onClick={() => handleClick(props)}>
         </div>
+        :
+        <div alt={word} className="cell-container" onClick={() => handleClick(props)}>
+    </div>
     )
 }
 
