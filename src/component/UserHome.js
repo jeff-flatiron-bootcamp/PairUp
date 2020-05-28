@@ -7,7 +7,8 @@ export class UserHome extends Component {
 	state = {
 		scores: {},
 		file: this.props.user.avatar,
-		show:false
+		show:false,
+		value:"Image URL"
 	}
 
 	componentDidMount() {
@@ -21,27 +22,12 @@ export class UserHome extends Component {
 			.then(res => this.setState({ scores: res.high_scores }))
 	}
 
-	handleFile = (event) => {
-		const file = event.target.files[0]
-		if (file) {
-			this.setState({ file: URL.createObjectURL(file) })
-			const formData = new FormData()
-			formData.append(0, file)
-
-			fetch('http://localhost:3000/api/v1/updateuser', {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json',
-					Accept: 'application/json',
-					Authorization: `Bearer ${localStorage.getItem('token')}`
-				},
-				body: JSON.stringify({user: this.props.user, file: formData})
-			})
-		}
-	}
-
 	showForm=()=>{
 		this.setState({show: !this.state.show})
+	}
+
+	handleChange=(event)=>{
+		this.setState({value: event.target.value})
 	}
 
 	render() {
@@ -62,21 +48,7 @@ export class UserHome extends Component {
 						</div>
 
 					</div>
-
-					<div className="row mb-5">
-						<div className="col text-center">
-						<form>
-						<Button onClick={this.showForm}>Upload New Image</Button> 
-							{this.state.show?
-							<div class="custom-file">
-								<input type="file" class="custom-file-input" id="customFile" onChange={this.handleFile}/>
-								<label class="custom-file-label" for="customFile">Choose file</label>
-								</div>
-							: null}
-						</form>
-						</div>
-					</div>
-
+					
 					<div className="row text-center">
 						<div className="col">
 							<div className="counter">

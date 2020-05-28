@@ -16,7 +16,13 @@ export class Leaderboard extends Component {
     }
     makeScoresPretty(difficulty){
         console.log(this.state.scores)
-    return  this.state.scores[difficulty].map(score =><li> <mark>{`${score.user.username}`}<img src={`./Flags/${score.user.country}.png`}></img></mark><small>{score.user_game.score}</small></li>)
+    return  this.state.scores[difficulty].map(score =><li> 
+        <mark>
+            <img className= "flag" src={`./Flags/${score.user.country}.png`}></img>
+            <span className="username">{`${score.user.username}`}</span>
+            </mark>
+        <small>{score.user_game.score}</small>
+        </li>)
 
     }
     render() {
