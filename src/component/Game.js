@@ -62,7 +62,7 @@ class Game extends Component {
             },
             body: JSON.stringify({
                 user: {
-                    user_game: user_game                                  //look at how to handle game difficulty level
+                    user_game: user_game                                 
                 }
             })
         })
@@ -75,7 +75,7 @@ class Game extends Component {
     //frontend functions
     startGame = () => {
         return (
-            <div className="row mb-5">
+            <div className="row gamediv">
                 <div className="col text-center" >
                 <h2 className="game-text"> Time Left:</h2>
                 <div className="col text-center counter" >
@@ -87,6 +87,8 @@ class Game extends Component {
                 <div className={`board-${this.props.number}`}> 
                     {this.generateRows()} 
                 </div>
+                <hr/>
+                <strong>HOW TO PLAY: </strong> Click on the tiles to see the image. Find all the pairs of matching images to win!
                 </div>
             </div>
         )
@@ -188,7 +190,7 @@ class Game extends Component {
                                 })
                             })
                         }
-                    }, 750)
+                    }, 500)
                     setTimeout(() => { this.setState({ choice: null }) }, 200)
                 }
             }

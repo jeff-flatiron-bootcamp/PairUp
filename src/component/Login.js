@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import avatar from '../images/avatar.png'
 
 export class Login extends Component {
@@ -77,10 +77,17 @@ export class Login extends Component {
 
     render() {
         return (
+            <Fragment>
+            <section id="our-stats">
+            <h2 className="text-green h1 text-center">Welcome!</h2>
+            <p className="text-uppercase text-center font-italic font-weight-light">Login or Signup Below to Play</p>
+        </section>
             <div className="container login-container">
+
                 <div className="row">
                     <div className="col-md-6 login-form-1">
                         <h3>Login!</h3>
+                        <hr/>
                         <form onSubmit={this.handleLogin}>
                             <div className="form-group">
                                 <input name="nameLogin" type="text" className="form-control" placeholder="User Name" value={this.state.nameLogin} onChange={this.handleChange} />
@@ -95,13 +102,14 @@ export class Login extends Component {
                     </div>
                     <div className="col-md-6 login-form-2">
                         <h3>Signup!</h3>
+                        <hr/>
                         <form onSubmit={this.handleCreateUser}>
                             <div className="form-group">
                                 <input name="nameSignup" type="text" className="form-control" placeholder="User Name" value={this.state.nameSignup} onChange={this.handleChange} />
                             </div>
                             <div className="form-group">
                                 {/* <input name="countrySignup" type="text" className="form-control" placeholder="Your Country" value={this.state.countrySignup} onChange={this.handleChange} /> */}
-                                <label>Country:</label>
+                                <label className= "label-country">Select Country:</label>
                                 <select onChange={this.handleChangeSelect}>
                                     <option value="AF">Afghanistan</option>
                                     <option value="AX">Åland Islands</option>
@@ -133,7 +141,6 @@ export class Login extends Component {
                                     <option value="BQ">Bonaire, Sint Eustatius and Saba</option>
                                     <option value="BA">Bosnia and Herzegovina</option>
                                     <option value="BW">Botswana</option>
-                                    <option value="BV">Bouvet Island * </option>
                                     <option value="BR">Brazil</option>
                                     <option value="IO">British Indian Ocean Territory</option>
                                     <option value="BN">Brunei Darussalam</option>
@@ -181,7 +188,6 @@ export class Login extends Component {
                                     <option value="FR">France</option>
                                     <option value="GF">French Guiana</option>
                                     <option value="PF">French Polynesia</option>
-                                    <option value="TF">French Southern Territories *</option>
                                     <option value="GA">Gabon</option>
                                     <option value="GM">Gambia</option>
                                     <option value="GE">Georgia</option>
@@ -191,15 +197,12 @@ export class Login extends Component {
                                     <option value="GR">Greece</option>
                                     <option value="GL">Greenland</option>
                                     <option value="GD">Grenada</option>
-                                    <option value="GP">Guadeloupe * </option>
                                     <option value="GU">Guam</option>
                                     <option value="GT">Guatemala</option>
                                     <option value="GG">Guernsey</option>
                                     <option value="GN">Guinea</option>
                                     <option value="GW">Guinea-Bissau</option>
-                                    <option value="GY">Guyana * </option>
                                     <option value="HT">Haiti</option>
-                                    <option value="HM">Heard Island and McDonald Islands * </option>
                                     <option value="VA">Holy See (Vatican City State)</option>
                                     <option value="HN">Honduras</option>
                                     <option value="HK">Hong Kong</option>
@@ -245,7 +248,6 @@ export class Login extends Component {
                                     <option value="MQ">Martinique</option>
                                     <option value="MR">Mauritania</option>
                                     <option value="MU">Mauritius</option>
-                                    <option value="YT">Mayotte * </option>
                                     <option value="MX">Mexico</option>
                                     <option value="FM">Micronesia, Federated States of</option>
                                     <option value="MD">Moldova, Republic of</option>
@@ -260,7 +262,6 @@ export class Login extends Component {
                                     <option value="NR">Nauru</option>
                                     <option value="NP">Nepal</option>
                                     <option value="NL">Netherlands</option>
-                                    <option value="NC">New Caledonia *</option>
                                     <option value="NZ">New Zealand</option>
                                     <option value="NI">Nicaragua</option>
                                     <option value="NE">Niger</option>
@@ -283,16 +284,13 @@ export class Login extends Component {
                                     <option value="PT">Portugal</option>
                                     <option value="PR">Puerto Rico</option>
                                     <option value="QA">Qatar</option>
-                                    <option value="RE">Réunion * </option>
                                     <option value="RO">Romania</option>
                                     <option value="RU">Russian Federation</option>
                                     <option value="RW">Rwanda</option>
                                     <option value="BL">Saint Barthélemy</option>
-                                    <option value="SH">Saint Helena, Ascension and Tristan da Cunha * </option>
                                     <option value="KN">Saint Kitts and Nevis</option>
                                     <option value="LC">Saint Lucia</option>
                                     <option value="MF">Saint Martin (French part)</option>
-                                    <option value="PM">Saint Pierre and Miquelon * </option>
                                     <option value="VC">Saint Vincent and the Grenadines</option>
                                     <option value="WS">Samoa</option>
                                     <option value="SM">San Marino</option>
@@ -303,19 +301,16 @@ export class Login extends Component {
                                     <option value="SC">Seychelles</option>
                                     <option value="SL">Sierra Leone</option>
                                     <option value="SG">Singapore</option>
-                                    <option value="SX">Sint Maarten (Dutch part) * </option>
                                     <option value="SK">Slovakia</option>
                                     <option value="SI">Slovenia</option>
                                     <option value="SB">Solomon Islands</option>
                                     <option value="SO">Somalia</option>
                                     <option value="ZA">South Africa</option>
-                                    <option value="GS">South Georgia and the South Sandwich Islands * </option>
                                     <option value="SS">South Sudan</option>
                                     <option value="ES">Spain</option>
                                     <option value="LK">Sri Lanka</option>
                                     <option value="SD">Sudan</option>
                                     <option value="SR">Suriname</option>
-                                    <option value="SJ">Svalbard and Jan Mayen * </option>
                                     <option value="SZ">Swaziland</option>
                                     <option value="SE">Sweden</option>
                                     <option value="CH">Switzerland</option>
@@ -339,7 +334,6 @@ export class Login extends Component {
                                     <option value="AE">United Arab Emirates</option>
                                     <option value="GB">United Kingdom</option>
                                     <option value="US">United States</option>
-                                    <option value="UM">United States Minor Outlying Islands * </option>
                                     <option value="UY">Uruguay</option>
                                     <option value="UZ">Uzbekistan</option>
                                     <option value="VU">Vanuatu</option>
@@ -347,7 +341,6 @@ export class Login extends Component {
                                     <option value="VN">Viet Nam</option>
                                     <option value="VG">Virgin Islands, British</option>
                                     <option value="VI">Virgin Islands, U.S.</option>
-                                    <option value="WF">Wallis and Futuna * </option>
                                     <option value="EH">Western Sahara</option>
                                     <option value="YE">Yemen</option>
                                     <option value="ZM">Zambia</option>
@@ -364,6 +357,7 @@ export class Login extends Component {
                     </div>
                 </div>
             </div>
+            </Fragment>
         )
     }
 }
