@@ -6,7 +6,8 @@ export class UserHome extends Component {
 
 	state = {
 		scores: {},
-		file: this.props.user.avatar
+		file: this.props.user.avatar,
+		show:false
 	}
 
 	componentDidMount() {
@@ -20,11 +21,16 @@ export class UserHome extends Component {
 			.then(res => this.setState({ scores: res.high_scores }))
 	}
 
-	handleFile=(event)=>{
-		console.log(event.target.files[0])
-		this.setState({file: event.target.files[0] })
+	handleFile = (event) => {
+		const file = event.target.files[0]
+		if (File) {
+			this.setState({ file: URL.createObjectURL(file) })
+		}
 	}
 
+	showForm=()=>{
+		this.setState({show: !this.state.show})
+	}
 
 	render() {
 		const name = this.props.user ? this.props.user.username : "Player"
@@ -44,9 +50,18 @@ export class UserHome extends Component {
 						</div>
 
 					</div>
+
 					<div className="row mb-5">
 						<div className="col text-center">
-							<input type='file' onChange={this.handleFile}/><Button onClick={this.uploadHandler}>Upload</Button>
+						<form>
+						<Button onClick={this.showForm}>Upload New Image</Button> 
+							{this.state.show?
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="customFile" onChange={this.handleFile}/>
+								<label class="custom-file-label" for="customFile">Choose file</label>
+								</div>
+							: null}
+						</form>
 						</div>
 					</div>
 
