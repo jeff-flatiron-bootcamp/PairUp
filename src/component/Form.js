@@ -38,7 +38,7 @@ export class Form extends Component {
                     <select name="tiles" onChange={(event) => this.handleTiles(event)}>
                         <option value="colors">Colors</option>
                         <option value="shapes">Shapes</option>
-                        <option value="faces">Faces</option>
+                        <option value="emoties">Emoties</option>
                     </select>
                     <h3>Choose the Game Difficulty:</h3>
                     <select name="time" onChange={(event) => this.handleChange(event)}>

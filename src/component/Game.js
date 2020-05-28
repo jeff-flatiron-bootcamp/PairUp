@@ -102,7 +102,7 @@ class Game extends Component {
             case 'shapes':
                 temp = tiles[1]
                 break;
-            case 'faces':
+            case 'emoties':
                 temp = tiles[2]
                 break;
             default: temp = tiles[0]
@@ -244,7 +244,7 @@ class Game extends Component {
             <div>
                 <Container>
                     <Jumbotron>
-                        {(this.state.time === 0)? null : (this.startGame())}
+                        {this.startGame()}
                     </Jumbotron>
                 </Container>
             </div>
