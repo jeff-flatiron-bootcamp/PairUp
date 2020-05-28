@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AuthHOC from '../HOC/AuthHOC'
 import { Button } from 'react-bootstrap'
+import Stats from './Stats'
 
 export class UserHome extends Component {
 
@@ -35,7 +36,9 @@ export class UserHome extends Component {
 		return (
 			<div className="container">
 				<section id="our-stats">
-
+				<	div>
+						{ this.state.scores.hard ? <Stats scores={this.state.scores}/> : null}
+					</div>
 					<div className="row mb-5">
 						<div className="col text-center">
 							<h2 className="text-green h1 text-center">{`Welcome ${name}!`}</h2>
@@ -46,31 +49,31 @@ export class UserHome extends Component {
 						<div className="col text-center">
 							<img src={this.state.file} className="img-fluid avatar" alt="" />
 						</div>
-
 					</div>
 					
 					<div className="row text-center">
 						<div className="col">
 							<div className="counter">
 								<i className="fa fa-hourglass-o fa-2x text-green"></i>
-								<h2 className="timer count-title count-number" data-to="100" data-speed="1500">{this.state.scores.easy ? this.state.scores.easy.score : 0} points</h2>
+								<h2 className="timer count-title count-number" data-to="100" data-speed="1500">{this.state.scores.easy ? Math.max(...this.state.scores.easy) : 0} points</h2>
 								<p className="count-text ">Highscore (Easy)</p>
 							</div>
 						</div>
 						<div className="col">
 							<div className="counter">
 								<i className="fa fa-hourglass-half fa-2x text-green"></i>
-								<h2 className="timer count-title count-number" data-to="1700" data-speed="1500">{this.state.scores.medium ? this.state.scores.medium.score : 0} points</h2>
+								<h2 className="timer count-title count-number" data-to="1700" data-speed="1500">{this.state.scores.medium ? Math.max(...this.state.scores.medium) : 0} points</h2>
 								<p className="count-text ">Highscore (Medium)</p>
 							</div>
 						</div>
 						<div className="col">
 							<div className="counter">
 								<i className="fa fa-hourglass fa-2x text-green"></i>
-								<h2 className="timer count-title count-number" data-to="11900" data-speed="1500">{this.state.scores.hard ? this.state.scores.hard.score : 0} points</h2>
+								<h2 className="timer count-title count-number" data-to="11900" data-speed="1500">{this.state.scores.hard ? Math.max(...this.state.scores.hard) : 0} points</h2>
 								<p className="count-text ">Highscore (Hard)</p>
 							</div>
 						</div>
+
 						{/* <div className="col">
 							<div className="counter">
 								<i className="fa fa-clock-o fa-2x text-green"></i>
