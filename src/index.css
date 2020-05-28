@@ -320,6 +320,8 @@ ul.share-buttons .sr-only{
 .avatar {
   max-width: 10% !important;
   height: auto;
+  margin-top: -30px;
+    margin-bottom: -30px;
 }
 
 a {

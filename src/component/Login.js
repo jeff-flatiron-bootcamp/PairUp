@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import avatar from '../images/avatar.png'
 
 export class Login extends Component {
 
@@ -8,7 +9,7 @@ export class Login extends Component {
         nameSignup: "",
         passwordSignup: "",
         countrySignup: "",
-        avatarSignup: "https://upload.wikimedia.org/wikipedia/commons/4/49/Syvia_of_Sylvia%27s_reaturant_N.Y.C_%28cropped%29.jpg"
+        avatarSignup: avatar
     }
 
     handleChangeSelect=(event)=>{
