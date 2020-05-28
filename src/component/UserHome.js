@@ -22,8 +22,9 @@ export class UserHome extends Component {
 
 	handleFile=(event)=>{
 		console.log(event.target.files[0])
-		this.setState({file:event.target.files[0] })
+		this.setState({file: event.target.files[0] })
 	}
+
 
 	render() {
 		const name = this.props.user ? this.props.user.username : "Player"
@@ -45,7 +46,7 @@ export class UserHome extends Component {
 					</div>
 					<div className="row mb-5">
 						<div className="col text-center">
-							<input type='file' onChange={this.handleFile}/>
+							<input type='file' onChange={this.handleFile}/><Button onClick={this.uploadHandler}>Upload</Button>
 						</div>
 					</div>
 

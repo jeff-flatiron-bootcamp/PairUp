@@ -27,6 +27,33 @@ let tiles =
     {flipped: false, word:"star", image:'./Cards/Shapes/star.jpg'},
     {flipped: false, word:"trefoil", image:'./Cards/Shapes/trefoil.jpg'},
     {flipped: false, word:"triangle", image:'./Cards/Shapes/triangle.jpg'},
-]]
+],
+[
+    {word:'blank', image:'./Cards/Emoties/blank.jpeg'},
+    {word:'blowkiss', image:'./Cards/Emoties/blowkiss.jpeg'},
+    {word:'boohoo', image:'./Cards/Emoties/boohoo.jpeg'},
+    {word:'cool', image:'./Cards/Emoties/cool.jpeg'},
+    {word:'cryinglaugh', image:'./Cards/Emoties/cryinglaugh.jpeg'},
+    {word:'grin', image:'./Cards/Emoties/grin.jpeg'},
+    {word:'groan', image:'./Cards/Emoties/groan.jpeg'},
+    {word:'grumble', image:'./Cards/Emoties/grumble.jpeg'},
+    {word:'harhar', image:'./Cards/Emoties/harhar.jpeg'},
+    {word:'kissy', image:'./Cards/Emoties/kissy.jpeg'},
+    {word:'love', image:'./Cards/Emoties/love.jpeg'},
+    {word:'meh', image:'./Cards/Emoties/meh.jpeg'},
+    {word:'no', image:'./Cards/Emoties/no.jpeg'},
+    {word:'oops', image:'./Cards/Emoties/oops.jpeg'},
+    {word:'proud', image:'./Cards/Emoties/proud.jpeg'},
+    {word:'sweating', image:'./Cards/Emoties/sweating.jpeg'},
+    {word:'tired', image:'./Cards/Emoties/tired.jpeg'},
+    {word:'uh', image:'./Cards/Emoties/uh.jpeg'},
+    {word:'wah', image:'./Cards/Emoties/wah.jpeg'},
+    {word:'whoa', image:'./Cards/Emoties/whoa.jpeg'},
+    {word:'wink', image:'./Cards/Emoties/wink.jpeg'},
+    {word:'winkwink', image:'./Cards/Emoties/winkwink.jpeg'},
+    {word:'yay', image:'./Cards/Emoties/yay.jpeg'},
+    {word:'yikes', image:'./Cards/Emoties/yikes.jpeg'}
+]
+]
 
 export {tiles}
