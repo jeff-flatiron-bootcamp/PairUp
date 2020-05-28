@@ -55,6 +55,14 @@ code {
   margin:auto;
 }
 
+.game-text{
+  text-align: left;
+}
+
+.counter {
+  margin: 30px;
+}
+
 header {
   height: 10%;
   background-color: #c0392b;

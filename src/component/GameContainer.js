@@ -42,9 +42,10 @@ export class GameContainer extends Component {
         const {visible, finalScore, game, level, win, sound, tileSet, number}=this.state
         return (
             <div className="col text-center" >
-                {game? <Button onClick={this.handleClick}>Stop Game!</Button>:null}
+                
                 {game? <Game sound={sound} level={level}  tileSet={tileSet} setFinalScore={this.setFinalScore} number={number}/> :<Form newGame={this.formSubmit}/>}
                 <ModalComp sound={sound} visible={visible} closeModal={this.closeModal} score={finalScore} win={win} level={level}/>
+                {game? <Button onClick={this.handleClick}>Stop Game!</Button>:null}
             </div>
         )
     }
