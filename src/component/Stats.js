@@ -39,19 +39,19 @@ export default class Stats extends Component {
                     text: "Games Stats By Difficulty Level",
                     display: true,
                     fontColor: "black",
-                    fontSize: 30
+                    fontSize: 20
                 },
                 legend: {
                     display: true,
                     labels: {
                         fontColor: 'black',
-                        fontSize: 20
+                        fontSize: 15
                     }
                 },
                 scales: {
                     yAxes: [{
                         ticks: {
-                            fontSize: 20
+                            fontSize: 15
                         }
                     }],
                     xAxes: [{
