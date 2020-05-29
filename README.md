@@ -14,30 +14,28 @@ Please start the rails server before you start the npm server, and since the npm
 
 See a video runthrough of the game at https://www.youtube.com/watch?v=ESqVLdMqoPE
 
-Create a login and password.
-
-<img src="https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpLogin.jpg" height="150px">
+Create a login and password
+<img src="https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpLogin.jpg" height="300px">
 
 Log in securely with that login and password, and you will see your game statistics accumulate.  View your best scores in each difficulty category (based on time), as well as some information about your average scores in each category and number of games played in each category.
 
-(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpHome.jpg)
+<img src="https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpHome.jpg" height="300px">
 
 Choose different tile sets to play with (colors, shapes, and emoties), different board sizes (8, 16, 20), and play with sounds or no sounds.
 
-(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpGameMenu.jpg)
-
-(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpGame.jpg)
-
-(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpTimeout.jpg)
-
-(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpWin.jpg)
+Menu
+<img src="https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpGameMenu.jpg" height="300px">
+Game
+<img src="https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpGame.jpg" height="300px">
+End Game - Timeout
+<img src="https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpTimeout.jpg" height="300px">
+End Game - Win
+<img src="https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpWin.jpg" height="300px">
 
 View leaderboards with high scores in each category and see where each user is from.
-
-(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpLeaderBoards.jpg)
+<img src="https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpLeaderBoards.jpg" height="300px">
 
 Read a brief note about the project.
-
 Logout and secure your statistics! 
 
 
@@ -52,8 +50,8 @@ We’d love to add further functionality regarding game times and improvements. 
 
 
 ## Authors
-Sara Khandaker
-Jeff Simon
+Sara Khandaker, 
+Jeff Simon, 
 Christine Bumpous
 
 
@@ -67,5 +65,5 @@ This project is licensed under the GNU General Public License.
 This game was created during Flatiron School’s Software Engineering bootcamp for Mod4.  We’d like to thank our instructors Ix, Soundarya and John for getting us to where we are in our coding journey, as well as our technical coaches, Hal and Matt.
 
 ## Major Resources:
-Flag icons from https://www.flaticon.com/authors/freepik
+Flag icons from https://www.flaticon.com/authors/freepik, 
 Using Chart.js in React https://blog.bitsrc.io/customizing-chart-js-in-react-2199fa81530a
