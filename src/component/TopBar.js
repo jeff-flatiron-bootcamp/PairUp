@@ -18,7 +18,7 @@ export class TopBar extends Component {
                <Navbar.Text> <Link to="/home">Home</Link></Navbar.Text>
                <Navbar.Text> <Link to="/leaderboard">Leaderboards</Link></Navbar.Text>
                <Navbar.Text> <Link to="/about">About</Link></Navbar.Text>
-               <Navbar.Text onClick={()=>this.handleLogout()}>Logout</Navbar.Text>
+               {this.props.user? <Navbar.Text onClick={()=>this.handleLogout()}>Logout</Navbar.Text>: null}
               </Nav>
           </Navbar>
           </Fragment>

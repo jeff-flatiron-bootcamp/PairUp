@@ -29,7 +29,7 @@ export default class App extends PureComponent {
       return (
         <Fragment>
         <Router>
-        <Route path="/" render={props => <TopBar  {...props} onLogout={this.onLogout}/>}/>
+        <Route path="/" render={props => <TopBar  user={this.state.user} {...props} onLogout={this.onLogout}/>}/>
         <Route exact path="/"> {this.state.user ? <Redirect to="/login" /> : <Redirect to="/home"/>}</Route>
         <Route exact path="/login" render={props => <Login {...props} onLogin={this.setUser} />}/>
         <Route path= '/about' render={props => <About {...props} setUser={this.setUser} />}/>
