@@ -5,7 +5,7 @@ import classes from "./Stats.css";
 
 //solve time by difficulty level
 
-export default class LineGraph extends Component {
+export default class Stats extends Component {
     chartRef = React.createRef();
 
     componentDidMount() {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AuthHOC from '../HOC/AuthHOC'
 import Stats from './Stats'
+import LineGraph from './LineGraph'
 
 export class UserHome extends Component {
 
@@ -82,6 +83,7 @@ export class UserHome extends Component {
 					</div>
 					<div>
 						{ this.state.scores.hard ? <Stats scores={this.state.scores}/> : null}
+						{ this.state.scores.hard ? <LineGraph scores={this.state.scores.all}/> : null}
 					</div>
 				</section>
 			</div>
