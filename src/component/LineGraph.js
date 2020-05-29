@@ -34,7 +34,7 @@ export default class LineGraph extends React.Component {
           options={{
             title:{
               display:true,
-              text:'Yours Scores Trend Over Time',
+              text:'Your Scores Over Time',
               fontColor: "black",
               fontSize: 20
             },

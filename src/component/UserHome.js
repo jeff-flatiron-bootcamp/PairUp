@@ -37,14 +37,11 @@ export class UserHome extends Component {
 		return (
 			<div className="container">
 				<section id="our-stats">
-					<div className="row mb-5">
+					<div className="row">
 						<div className="col text-center">
+						
 							<h2 className="text-green h1 text-center">{`Welcome ${name}!`}</h2>
 							<p className="text-uppercase font-italic font-weight-light">Remember to play at least 10 minutes a day to build your memory!</p>
-						</div>
-					</div>
-					<div className="row mb-5">
-						<div className="col text-center">
 							<img src={this.state.file} className="img-fluid avatar" alt="" />
 						</div>
 					</div>
