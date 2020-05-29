@@ -16,7 +16,7 @@ See a video runthrough of the game at https://www.youtube.com/watch?v=ESqVLdMqoP
 
 Create a login and password.
 
-(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpLogin.jpg)
+<img src="https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpLogin.jpg" height="150px">
 
 Log in securely with that login and password, and you will see your game statistics accumulate.  View your best scores in each difficulty category (based on time), as well as some information about your average scores in each category and number of games played in each category.
 
