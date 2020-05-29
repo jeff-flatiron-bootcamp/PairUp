@@ -11,17 +11,26 @@ Please start the rails server before you start the npm server, and since the npm
 
 
 ### Usage
+
+See a video runthrough of the game at https://www.youtube.com/watch?v=ESqVLdMqoPE
+
 Create a login and password.
 
 (https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpLogin.jpg)
 
 Log in securely with that login and password, and you will see your game statistics accumulate.  View your best scores in each difficulty category (based on time), as well as some information about your average scores in each category and number of games played in each category.
 
-()
+(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpHome.jpg)
 
 Choose different tile sets to play with (colors, shapes, and emoties), different board sizes (8, 16, 20), and play with sounds or no sounds.
 
-(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpPlayMenu.jpg)
+(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpGameMenu.jpg)
+
+(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpGame.jpg)
+
+(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpTimeout.jpg)
+
+(https://github.com/bumpouce/PairUp/blob/master/ReadMeImages/PairUpWin.jpg)
 
 View leaderboards with high scores in each category and see where each user is from.
 

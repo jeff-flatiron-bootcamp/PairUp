@@ -13,6 +13,10 @@ export class About extends Component {
                         <h4>About Us</h4>
                         <h4 className="subheading">Pair UP was created by three junior developers with a passion for self improvement</h4>
                         <p className="text-muted"> Here at Pair UP we believe learning should be fun and effortless! Thats why we developed this game where in just 10 minutes each day you can train your brain. </p>
+                        <br></br>
+                        <h4>Win Big!</h4>
+                        <h4 className="subheading">Improve Your Score</h4>
+                        <p className="text-muted">There are three ways to improve your score - choose a harder difficulty, solve the game faster, and add more tiles!</p>
                     </div>
                 </div>
                 <div className="row">
@@ -24,7 +28,7 @@ export class About extends Component {
                     <div className="col-md-6 how-img">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Red_Silhouette_-_Brain.svg/410px-Red_Silhouette_-_Brain.svg.png" className="rounded-circle img-fluid" alt="" />
                     </div>
-                </div>
+                </div>    
             </div>
         )
     }
