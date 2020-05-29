@@ -3,8 +3,7 @@ import {Line} from 'react-chartjs-2';
 
 export default class LineGraph extends React.Component {
     state = {
-        labels: ['January', 'February', 'March',
-                 'April', 'May'],
+        labels: [1,2,3],
         datasets: [
           {
             label: 'Score',
@@ -13,7 +12,7 @@ export default class LineGraph extends React.Component {
             backgroundColor: 'rgba(75,192,192,1)',
             borderColor: 'rgba(0,0,0,1)',
             borderWidth: 2,
-            data: this.props.scores
+            data: this.props.scores.filter(num=> num!= null)
           }
         ]
       }
@@ -37,10 +36,6 @@ export default class LineGraph extends React.Component {
               text:'Your Scores Over Time',
               fontColor: "black",
               fontSize: 20
-            },
-            legend:{
-              display:true,
-              position:'left'
             }
           }}
         />
