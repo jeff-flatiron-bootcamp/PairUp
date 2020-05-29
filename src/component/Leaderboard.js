@@ -15,8 +15,7 @@ export class Leaderboard extends Component {
           .then(res=>this.setState({scores: res.high_scores}))
     }
     makeScoresPretty(difficulty){
-        console.log(this.state.scores)
-    return  this.state.scores[difficulty].map(score =><li> 
+    return  this.state.scores[difficulty].map((score,i )=><li key={i}> 
         <mark>
             <img className= "flag" src={`./Flags/${score.user.country}.png`}></img>
             <span className="username">{`${score.user.username}`}</span>
@@ -27,7 +26,7 @@ export class Leaderboard extends Component {
     }
     render() {
         return (
-            <div class="container">
+            <div className="container">
                 <section id="our-stats">
                     <h2 className="text-green h1 text-center">Leaderboards</h2>
                     <p className="text-uppercase text-center font-italic font-weight-light">Can you make it to the top?</p>

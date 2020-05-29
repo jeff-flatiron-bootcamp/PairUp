@@ -67,7 +67,6 @@ class Game extends Component {
             })
         })
             .then(res => res.json())
-            .then(json => console.log(`Updated db with: ${json}`))
     }
     storeUserGame = (userGameData) => {
         localStorage.setItem("user_game", JSON.stringify(userGameData.created_UserGame))
@@ -149,7 +148,6 @@ class Game extends Component {
                 time = 20
                 break;
             default:
-                console.log(`Input Failure`);
         }
         this.setState({ difficulty: time, timesUp: false, time: Date.now() })
     }
@@ -172,7 +170,6 @@ class Game extends Component {
                 else {                                  //get timer's previous state and pass it forward into render?
                     setTimeout(() => {
                         if ((pair.word === cell.word) && (pair.id !== cell.id)) {
-                            console.log(`They match!`)
                             this.setState({
                                 score: this.state.score + 1,
                                 matched: [...this.state.matched, pair, cell]
@@ -180,7 +177,6 @@ class Game extends Component {
                             this.isAWin()
                         }
                         else {
-                            console.log(`They don't match!`)
                             this.setState({
                                 board: this.state.board.map(card => {
                                     if ((card === cell) || (card === pair)) {
@@ -194,7 +190,6 @@ class Game extends Component {
                     setTimeout(() => { this.setState({ choice: null }) }, 200)
                 }
             }
-            else { console.log(`This card has already been matched!`) }
         }
     }
 
@@ -202,13 +197,9 @@ class Game extends Component {
         if ((this.state.matched.length) === this.state.board.length) {
 
         let [elapsedTime, balancedScore] = this.gameStats()
-        console.log(`Win: ${balancedScore} in ${elapsedTime}s`)
         this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
 
         this.props.setFinalScore(balancedScore, true)
-        }
-        else {
-        return console.log(`Current score: ${this.state.score * 2} / ${this.state.board.length} `)
         }
     }
 
