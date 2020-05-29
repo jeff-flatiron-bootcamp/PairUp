@@ -1,268 +1,250 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Jumbotron, Modal, Button } from 'react-bootstrap'
-import Countdown from 'react-countdown'
+import ReactCountdownClock from 'react-countdown-clock'
+import { Container, Jumbotron} from 'react-bootstrap'
+import {tiles } from '../data.js'
 import '../App.css';
-import {tiles} from '../data.js'
 import Cell from './Cell.js'
-import trophy from './512px-Circle-icons-trophy_(dark).svg.png'
-import AuthHOC from '../HOC/AuthHOC'
-import fb from '../images/Facebook.png'
-import email from '../images/Email.png'
 
-const URL = "localhost:3000"
+const INITIAL_STATE = {
+    board: tiles[0],
+    choice: null,
+    matched: [],
+    score:0,
+    time: 0,
+    difficulty: 60,
+    timesUp: true,
+}
 
 class Game extends Component {
 
-  constructor(props) {
-      super(props)
-    
-      this.state = {
-        board: tiles,
-        choice: null,
-        matched: [],
-        score: 0,
-        difficulty: 0,
-        time: 0,
-        visible : false
-      }
-  }
-  openModal() {
-    this.setState({
-        visible : true
-    });
-}
+    state = INITIAL_STATE
 
-closeModal() {
-    this.setState({
-        visible : false
-    });
-}
-  componentDidMount(){
-    this.prepGameBoard() 
-    this.postNewUserGame()
-  }
-
-  postNewUserGame = () => {
-    let token = localStorage.getItem('token');    
-    fetch('http://localhost:3000/api/v1/newgame', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        user: {
-          game_type: "1"         //look at how to handle game difficulty level
-        }      
-      })     
-    })
-    .then(res => res.json())
-    .then(userGameData => this.storeUserGame(userGameData))
-  }
-
-  patchUserGame = () => {
-    let token = localStorage.getItem('token');  
-    let user_game = JSON.parse(localStorage.getItem('user_game'))
-    user_game.score = this.state.score // multiplier?
-    user_game.timer =  10 // difficulty time - leftover timer time
-
-
-    fetch('http://localhost:3000/api/v1/updategame', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        user: {
-          user_game: user_game         //look at how to handle game difficulty level
-        }      
-      })     
-    })
-    .then(res => res.json())
-    .then(json => console.log(json))
-
-  }
-
-  storeUserGame = (userGameData) => {    
-    localStorage.setItem("user_game", JSON.stringify(userGameData.created_UserGame))
-    //this.patchUserGame()  // move this to the win method
-  }
-
-
-  setChoice = (cell) =>{
-
-    if (!this.state.matched.includes(cell)){
-
-    this.setState ({     
-      board:this.state.board.map(card => {
-      if (card === cell) {
-        card.flipped = true
-      }
-      return card
-      })
-    })
-
-
-    let pair = this.state.choice
-    if (!pair) {
-      this.setState({choice:cell })}
-    else {
-      setTimeout(() => {
-      if ((pair.word === cell.word) && (pair.id !== cell.id)){
-        console.log(`They match!`)
-        this.setState({score: this.state.score + 1, 
-          matched:[...this.state.matched, pair, cell]})
-          this.isAWin()
-      }
-      else {
-        console.log(`They don't match!`)
-        this.setState ({ 
-          board:this.state.board.map(card => {
-            if ((card === cell) || (card === pair)) {
-              card.flipped = false
-            }
-            return card
-          })
-        })  
-      }}, 750)
-
-      setTimeout(() => {this.setState({choice:null})}, 200)
-    }  }
-
-    else { console.log(`This card has already been matched!`)}
-  }
-
-  isAWin = (multiplier=2) => {
-    if ((this.state.score * multiplier) === this.state.board.length){
-
-      //send an update to backend with score
-      this.setState({board:[], score:0})
-      this.setState({board:tiles})
-      this.prepGameBoard()
-
-      this.patchGame()
-      this.openModal()
-    //   return alert("You win!")
-    }
-    else {
-      return console.log(`Current score: ${this.state.score * multiplier} / ${this.state.board.length} `)
-    }
-    
-  }
-
-  generateRows = ()=> {
-    return this.state.board.map(val => <Cell key={val.id} cellContent={val} onSetChoice={this.setChoice}/>)
-  }
-
-
-  chooseTiles = () => {
-    return(
-      <div>
-        Choose a Tile Set
-        <select onChange={this.handleTiles}>
-          <option value="Default">Default</option>
-          <option value="shapes">Shapes</option>
-          <option value="colors">Colors</option>
-        </select>
-      </div>
-    )
-  }
-
-  handleTiles = (choice) => {
-    console.log(`Chose ${choice.target.value}`)
-  }
-
-
-  chooseDifficulty = () => {
-    return (
-      <div>
-        Choose the Game Difficulty
-        <select onChange={this.changeTimer}>
-          <option value="60000">Easy</option>
-          <option value="45000">Medium</option>
-          <option value="30000">Hard</option>
-          <option value="20000">Extreme</option>
-        </select>
-      </div>
-    )
-  }
-
-  changeTimer = (choice) => {
-    let time = choice.target.value
-    this.setState({difficulty:time})
-  }
-
-  startTimer = () => {
-    return <h2><Countdown date={Date.now() + parseInt(this.state.difficulty)}/></h2>
-  } 
-
-  completed = () => {
-    //   return (<span>Time's up!</span>)
-  }
-
-  prepGameBoard = () => {
-    
-    let local = []
-    let temp = []
-    
-    for (let i=0; i < 8; i++){
-      let choose = this.state.board[Math.floor(Math.random() * this.state.board.length)]
-
-      if (!temp.includes(choose)){
-        temp.push(choose)
-        let {flipped, word, image} = choose
-        let a = {flipped: flipped, word: word, image:image, id:(i+"a")}
-        let b = {flipped: flipped, word: word, image:image, id:(i+"b")}
-        local.push(a,b)
-      } else { i-- }
+    componentDidMount() {
+        this.prepGameBoard(this.props.tileSet)
+        this.postNewUserGame()
+        this.changeTimer()
+        this.setState({ time: Date.now() })
     }
 
-    //Fisher-Yates Shuffle Algorithm!
-    for (let i= local.length - 1; i > 0; i--){
-        const j = Math.floor(Math.random() * i)
-        const temp = local[i]
-        local[i] = local[j]
-        local[j] = temp
-    }
-    this.setState({board:local})
-  }
+    //backend functions
+    postNewUserGame = () => {
+        let token = localStorage.getItem('token');
 
-  render() {
-      return (
-          <div>
-            <Container>
-                <Jumbotron>
-                {this.chooseDifficulty()}
-                {this.startTimer()}
-                <div className="board">
-                    {this.generateRows()}
+        fetch('http://localhost:3000/api/v1/newgame', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                user: {
+                    game_type: this.props.level,
+                    score: 0                                         //look at how to handle game difficulty level
+                }
+            })
+        })
+            .then(res => res.json())
+            .then(userGameData => this.storeUserGame(userGameData))
+    }
+    patchUserGame = () => {
+        let token = localStorage.getItem('token');
+        let user_game = JSON.parse(localStorage.getItem('user_game'))
+        user_game.score = this.state.score                          // multiplier?
+        user_game.time = this.state.time                                       // difficulty time - leftover timer time
+        fetch('http://localhost:3000/api/v1/updategame', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                user: {
+                    user_game: user_game                                 
+                }
+            })
+        })
+            .then(res => res.json())
+    }
+    storeUserGame = (userGameData) => {
+        localStorage.setItem("user_game", JSON.stringify(userGameData.created_UserGame))
+    }
+    //frontend functions
+    startGame = () => {
+        return (
+            <div className="row gamediv">
+                <div className="col text-center" >
+                <h2 className="game-text"> Time Left:</h2>
+                <div className="col text-center counter" >
+                    {(this.state.timesUp) ? null : <ReactCountdownClock seconds={this.state.difficulty} color="#60a3bc" alpha={0.9} size={200} onComplete={this.gameEndsWithTimeOut} /> }
                 </div>
-                </Jumbotron>
-                <Modal displayClassName="modal" show={this.state.visible} width="400" height="800" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                    <div className="win">
-                        <h1>You Won!</h1>
-                        <img width="200" src={trophy} alt="win"/>
-                        <p>Game Dificulty: </p>
-                        <p>Your Score: </p>
-                        <p>Your Highscore: </p>
-                        <strong>Enjoying the Game? Share with your friends and family! </strong>
-                        <ul className="share-buttons">
-            <li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.localhost3000%2F&quote=PairUp!" title="Share on Facebook" target="_blank"><img alt="Share on Facebook" src={fb} /></a></li>
-            <li><a href="mailto:?subject=PairUp!&body=Come%20play%20this%20super%20fun%20memory%20game%20and%20improve%20your%20memory!:%20http%3A%2F%2Fwww.localhost3000%2F" target="_blank" title="Send email"><img alt="Send email" src={email} /></a></li>
-          </ul>
-                        <Button variant="primary" onClick={()=> this.closeModal()}>Play Again! </Button>
-                        <Button variant="primary" onClick={()=> this.closeModal()}>Back to Home </Button>
-                    </div>
-                </Modal>
-            </Container> 
-        </div>
-      )
-  }
+                    <h2 className="game-text"> Pairs Matched: {this.state.score}</h2>
+                </div>
+                <div className="col text-center" >
+                <div className={`board-${this.props.number}`}> 
+                    {this.generateRows()} 
+                </div>
+                <hr/>
+                <strong>HOW TO PLAY: </strong> Click on the tiles to see the image. Find all the pairs of matching images to win!
+                </div>
+            </div>
+        )
+    }
+    
+
+    prepGameBoard = (tileSet) => {
+
+        let local = []
+        let temp = []
+
+        switch(tileSet){
+            case 'colors':
+                temp = tiles[0]
+                break;
+            case 'shapes':
+                temp = tiles[1]
+                break;
+            case 'emoties':
+                temp = tiles[2]
+                break;
+            default: temp = tiles[0]
+        }
+        
+        for (let i = 0; i < this.props.number/2; i++) {
+            let choose = temp[Math.floor(Math.random() * temp.length)]
+            if (!local.map(item => item.word).includes(choose.word)) {
+                let { word, image } = choose
+                let a = { flipped: false, word: word, image: image, id: (i + "a") }
+                let b = { flipped: false, word: word, image: image, id: (i + "b") }
+                local.push(a, b)
+            } else { i-- }
+        }
+
+        //Fisher-Yates Shuffle Algorithm!
+        for (let i = local.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * i)
+            const temp = local[i]
+            local[i] = local[j]
+            local[j] = temp
+        }
+        this.setState({ board: local, timesUp: false })
+    }
+    generateRows = () => {
+        return this.state.board.map(val => <Cell sound={this.props.sound} key={val.id} cellContent={val} onSetChoice={this.setChoice} />)
+    }
+    changeTimer = () => {
+        let level = this.props.level
+        let time = 0
+        switch (level) {
+            case 'Easy':
+                time = 60
+                break;
+            case 'Medium':
+                time = 40
+                break
+            case 'Hard':
+                time = 20
+                break;
+            default:
+        }
+        this.setState({ difficulty: time, timesUp: false, time: Date.now() })
+    }
+
+    setChoice = (cell) => {
+        if (!this.state.timesUp) {
+            if (!this.state.matched.includes(cell)) {
+                this.setState({
+                    board: this.state.board.map(card => {
+                        if (card === cell) {
+                            card.flipped = true
+                        }
+                        return card
+                    })
+                })
+                let pair = this.state.choice
+                if (!pair) {
+                    this.setState({ choice: cell })
+                }
+                else {                                  //get timer's previous state and pass it forward into render?
+                    setTimeout(() => {
+                        if ((pair.word === cell.word) && (pair.id !== cell.id)) {
+                            this.setState({
+                                score: this.state.score + 1,
+                                matched: [...this.state.matched, pair, cell]
+                            })
+                            this.isAWin()
+                        }
+                        else {
+                            this.setState({
+                                board: this.state.board.map(card => {
+                                    if ((card === cell) || (card === pair)) {
+                                        card.flipped = false
+                                    }
+                                    return card
+                                })
+                            })
+                        }
+                    }, 500)
+                    setTimeout(() => { this.setState({ choice: null }) }, 200)
+                }
+            }
+        }
+    }
+
+    isAWin = () => {
+        if ((this.state.matched.length) === this.state.board.length) {
+
+        let [elapsedTime, balancedScore] = this.gameStats()
+        this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
+
+        this.props.setFinalScore(balancedScore, true)
+        }
+    }
+
+    gameEndsWithTimeOut = () => {
+        //final calculations
+        let [elapsedTime, balancedScore] = this.gameStats()
+        console.log(`Timeout: ${balancedScore} in ${elapsedTime}s`)
+        this.setState({ time: elapsedTime, score: balancedScore, timesUp: true }, () => this.patchUserGame())
+        this.props.setFinalScore(balancedScore, false)
+    }
+
+    gameStats = () => {
+        //final calculations
+        let multiplier
+        switch (this.state.difficulty) {
+            case 60:
+                multiplier = 20
+                break;
+            case 40:
+                multiplier = 40
+                break
+            case 20:
+                multiplier = 60
+                break;
+            default: multiplier = 10;
+        } 
+        let elapsedTime = Math.floor((Date.now() - this.state.time) / 1000)        
+        let balancedScore = Math.floor((this.state.score * multiplier) - elapsedTime)+(2*this.props.number)
+        if (balancedScore<0){
+            balancedScore=0
+        }
+
+        return [elapsedTime, balancedScore]
+    }
+
+    render() {
+        return (
+            <div>
+                <Container>
+                    <Jumbotron>
+                        {this.startGame()}
+                    </Jumbotron>
+                </Container>
+            </div>
+        )
+    }
 }
-
-
-export default AuthHOC(Game)
+export default Game

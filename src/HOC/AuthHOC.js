@@ -25,7 +25,6 @@ const AuthHOC = WrappedComponent => {
     }})
           .then(res => res.json())
         .then((resp) => {
-          console.log(resp)
           if (resp.error) {
             this.props.history.push("/login")
           } else {
