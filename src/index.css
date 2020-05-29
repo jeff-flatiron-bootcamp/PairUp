@@ -313,6 +313,7 @@ header {
 .win button{
   background-color: #c0392b;
   color: #ECEBE4;
+  margin-bottom: 10px;
 }
 
 /* ----------------------- */
